@@ -80,7 +80,7 @@ Especially when distributing an app to the public (e.g. through the App Store), 
 
 ### AFNetworking
 
-A perceived 99.95 percent of iOS developers use this network library. Sure, iOS 7's `NSURLSession` brought some nice improvements to the rather dated native networking APIs, but `AFNetworking` is still unbeaten when it comes to actually manage a queue of requests, which is pretty much a requirement in any modern app.
+A perceived 99.95 percent of iOS developers use this network library. Sure, iOS 7's `NSURLSession` brought some nice improvements to the rather dated native networking APIs, but `AFNetworking` is still unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
 
 ### DateTools
 As a general rule, don't write your date calculations yourself. [(Here's why.)](https://www.youtube.com/watch?v=-5wpm-gesOY) Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
@@ -92,11 +92,17 @@ If you prefer to write your views in code, chances are you've met either of Appl
 
 ## Architecture
 
-* Model-View-Controller-Store (MVCS)
-    * Stores handle all networking, can cache etc.
+* [Model-View-Controller-Store (MVCS)](http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store)
+    * Stores handle all networking, cache data etc.
     * Expose either `RACSignal`s or void-returning methods with custom completion blocks
-* MVVM, if you're brave
-    * No own project experience yet
+* [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
+    * Quite new concept for Cocoa developers, but gaining traction
+
+### Common Patterns
+
+* __Delegation:__ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
+* __Callback blocks:__ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
+* __Signals:__ The centerpiece of [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell](http://elm-lang.org/learn/Escape-from-Callback-Hell.elm).
 
 ### Models
 
@@ -158,11 +164,57 @@ There are good introductions to the concept of RAC (and FRP in general) on [Teeh
 
 This allows us to transform or filter gigs before showing them, by combining the gig signal with other signals.
 
+## Assets
+
+[Asset catalogs](https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html) are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
+
+## Coding Style
+
+### Structure
+
+[Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
+
+```objective-c
+#pragma mark - Lifecycle
+
+- (instancetype)initWithFoo:(Foo *)foo;
+- (void)dealloc;
+
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+
+#pragma mark - Auto Layout
+
+- (void)makeViewConstraints;
+
+#pragma mark - User Interaction
+
+- (void)foobarButtonTapped;
+
+#pragma mark - XYZFoobarDelegate
+
+- (void)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;
+
+#pragma mark - Internal Helpers
+
+- (NSString *)displayNameForFoo:(Foo *)foo;
+```
+
+The most important point is to keep these consistent across your project's classes.
+
+## Diagnostics
+
+### [FauxPas](http://fauxpasapp.com/)
+
+Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
+
+### [Reveal](http://revealapp.com/)
+
+This expensive, but powerfool visual inspector will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+
 ## More Ideas
 
-- Architectural ideas, patterns (e.g. callbacks, delegation, signals)
-- FauxPas, Reveal
-- Asset naming for designers
 - Certificates and provisioning profiles (keep it hands-on)
 - Analytics, Tag manager
-- Structure of code (pragmas, order of stuff)

@@ -113,7 +113,9 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 Use dependency injection instead of keeping all state around in singletons. The latter is okay only if that state _really_ is global.
 
-    + [[ModelDetailsViewController alloc] initWithModel:(Model *)model];
+```objective-c
++ [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
+```
 
 ## Networking
 

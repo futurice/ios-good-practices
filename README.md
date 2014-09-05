@@ -234,9 +234,31 @@ Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux 
 
 ### [Reveal](http://revealapp.com/)
 
-This expensive, but powerfool visual inspector will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+This expensive, but powerful visual inspector will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+
+## Deployment
+
+Deploying software for iOS is a pain. That being said, there are some things to know that will help you tremendously with it.
+
+Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
+
+* __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
+* __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
+
+Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
+
+* __Development provisioning profile:__ It contains a list of all devices that the device is authorized to be built on. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
+
+* __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
+    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile is used for beta testing (e.g. TestFlight). Note that due to Apple's acquisition of TestFlight, this is likely to change in late 2014.
+    * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
+    * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
+
+To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
 ## More Ideas
 
-- Certificates and provisioning profiles (keep it hands-on)
 - Analytics, Tag manager
+- [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
+- Update for Xcode 6
+    - No automatic precompiled header

@@ -211,6 +211,11 @@ The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but
 
 - (void)makeViewConstraints;
 
+#pragma mark - Public Interface
+
+- (void)startFooing;
+- (void)stopFooing;
+
 #pragma mark - User Interaction
 
 - (void)foobarButtonTapped;

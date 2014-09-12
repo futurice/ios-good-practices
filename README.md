@@ -262,3 +262,5 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 - [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
 - Update for Xcode 6
     - No automatic precompiled header
+- Pod usage: `pod install` vs `pod update`
+- Schemes, targets, build configurations

@@ -241,6 +241,55 @@ Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux 
 
 This expensive, but powerful visual inspector will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
 
+## Analytics
+
+Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager](http://www.google.com/tagmanager/). The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
+
+A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
+
+```objective-c
+
+- (void)pushAddItemEventWithItem:(XYZItem *)item editMode:(XYZEditMode)editMode
+{
+    NSString *editModeString = [self nameForEditMode:editMode];
+
+    [self pushToDataLayer:@{
+        @"event": "addItem",
+        @"itemIdentifier": item.identifier,
+        @"editMode": editModeString
+    }];
+}
+
+```
+
+This has the additional advantage of allowing you to swap out the entire Analytics framework behind the scenes if needed, without the rest of the app noticing.
+
+## Building
+
+### Build Configurations
+
+Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
+
+However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have their own base URL, log levels, bundle identifier (so you can install them side-by-side), provisinging profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+
+### Targets
+
+A target resides conceptually below the project level, i.e. a project can have several targets that may override its project settings. Roughly, each target corresponds to "an app" within the context of your codebase. For instance, you could have country-specific apps (built from the same codebase) for different countries' App Stores. Each of these will need development/staging/release builds, so it's better to handle those through build configurations, not targets. It's not uncommon at all for an app to only have a single target.
+
+## Schemes
+
+Schemes tell Xcode what should happen when you hit the Run, Test, Profile, Analyze or Archive action. Basically, they map each of these actions to a target and a build configuration. You can also pass launch arguments, such as the language the app should run in (handy for testing your localizations!) or set some diagnostic flags for debugging.
+
+A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
+
+    MyApp (English) [Development]
+    MyApp (German) [Development]
+    MyApp [Testing]
+    MyApp [Staging]
+    MyApp [App Store]
+
+For most environments the language is not needed, as the app will probably be installed through other means than Xcode, e.g. TestFlight, and the launch argument thus be ignored anyway. In that case, the device language should be set manually to test localization.
+
 ## Deployment
 
 Deploying software for iOS is a pain. That being said, there are some things to know that will help you tremendously with it.
@@ -263,9 +312,7 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 
 ## More Ideas
 
-- Analytics, Tag manager
 - [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
 - Update for Xcode 6
     - No automatic precompiled header
 - Pod usage: `pod install` vs `pod update`
-- Schemes, targets, build configurations

@@ -289,6 +289,19 @@ Even simple apps can be built in different ways. The most basic separation that 
 
 However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have their own base URL, log levels, bundle identifier (so you can install them side-by-side), provisinging profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
 
+#### `xcconfig` files for build settings
+
+Typically build settings are specified in the Xcode GUI, but you can also use _configuration settings files_ (“`.xcconfig` files”) for them. The benefits of using these are:
+
+- You can add comments to explain things
+- You can `#include` other build settings files, which helps you avoid repeating yourself:
+    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
+    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
+
+Find more information about this topic in [these presentation slides][xcconfig-slides].
+
+[xcconfig-slides]: https://speakerdeck.com/hasseg/xcode-configuration-files
+
 ### Targets
 
 A target resides conceptually below the project level, i.e. a project can have several targets that may override its project settings. Roughly, each target corresponds to "an app" within the context of your codebase. For instance, you could have country-specific apps (built from the same codebase) for different countries' App Stores. Each of these will need development/staging/release builds, so it's better to handle those through build configurations, not targets. It's not uncommon at all for an app to only have a single target.

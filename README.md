@@ -67,6 +67,10 @@ Keep all user strings in localization files right from the beginning. This is go
 
 For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format](https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html) instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
 
+Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant in October 2014.
+
+[l10n-slides]: https://speakerdeck.com/hasseg/localization-practicum
+
 #### Constants
 
 Keep app-wide constants in a `Constants.h` file that is included in the prefix header. For constants, use the syntax

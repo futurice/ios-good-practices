@@ -237,6 +237,19 @@ The most important point is to keep these consistent across your project's class
 
 ## Diagnostics
 
+### Compiler warnings
+
+It is recommended that you enable as many compiler warnings as possible, and treat warnings as errors. This recommendation is justified in [these presentation slides][warnings-slides]. The slides also contain information on how to suppress certain warnings in specific files, or in specific sections of code.
+
+In short, add at least these values to the _“Other Warning Flags”_ build setting:
+
+- `-Wall` _(Enables lots of additional warnings)_
+- `-Wextra` _(Enables more additional warnings)_
+
+Also enable the _“Treat warnings as errors”_ build setting.
+
+[warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
+
 ### [Faux Pas](http://fauxpasapp.com/)
 
 Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!

@@ -254,9 +254,12 @@ Also enable the _“Treat warnings as errors”_ build setting.
 
 Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
 
-### [Reveal](http://revealapp.com/)
+### [Reveal] or [Spark Inspector]
 
-This expensive, but powerful visual inspector will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+These powerful visual inspectors will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+
+[Reveal]: http://revealapp.com/
+[Spark Inspector]: http://sparkinspector.com
 
 ## Analytics
 

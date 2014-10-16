@@ -67,6 +67,10 @@ Keep all user strings in localization files right from the beginning. This is go
 
 For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format](https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html) instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
 
+Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant in October 2014.
+
+[l10n-slides]: https://speakerdeck.com/hasseg/localization-practicum
+
 #### Constants
 
 Keep app-wide constants in a `Constants.h` file that is included in the prefix header. For constants, use the syntax
@@ -233,7 +237,20 @@ The most important point is to keep these consistent across your project's class
 
 ## Diagnostics
 
-### [FauxPas](http://fauxpasapp.com/)
+### Compiler warnings
+
+It is recommended that you enable as many compiler warnings as possible, and treat warnings as errors. This recommendation is justified in [these presentation slides][warnings-slides]. The slides also contain information on how to suppress certain warnings in specific files, or in specific sections of code.
+
+In short, add at least these values to the _“Other Warning Flags”_ build setting:
+
+- `-Wall` _(Enables lots of additional warnings)_
+- `-Wextra` _(Enables more additional warnings)_
+
+Also enable the _“Treat warnings as errors”_ build setting.
+
+[warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
+
+### [Faux Pas](http://fauxpasapp.com/)
 
 Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
 
@@ -271,6 +288,19 @@ This has the additional advantage of allowing you to swap out the entire Analyti
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
 However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have their own base URL, log levels, bundle identifier (so you can install them side-by-side), provisinging profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+
+#### `xcconfig` files for build settings
+
+Typically build settings are specified in the Xcode GUI, but you can also use _configuration settings files_ (“`.xcconfig` files”) for them. The benefits of using these are:
+
+- You can add comments to explain things
+- You can `#include` other build settings files, which helps you avoid repeating yourself:
+    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
+    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
+
+Find more information about this topic in [these presentation slides][xcconfig-slides].
+
+[xcconfig-slides]: https://speakerdeck.com/hasseg/xcode-configuration-files
 
 ### Targets
 

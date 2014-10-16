@@ -233,7 +233,7 @@ The most important point is to keep these consistent across your project's class
 
 ## Diagnostics
 
-### [FauxPas](http://fauxpasapp.com/)
+### [Faux Pas](http://fauxpasapp.com/)
 
 Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
 

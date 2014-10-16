@@ -250,6 +250,21 @@ Also enable the _“Treat warnings as errors”_ build setting.
 
 [warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
 
+### Clang Static Analyzer
+
+The Clang compiler (which Xcode uses) has a _static analyzer_ that performs control and data flow analysis on your code and checks for lots of errors that the compiler cannot.
+
+You can manually run the analyzer from the _Product → Analyze_ menu item in Xcode.
+
+The analyzer can work in either “shallow” or “deep” mode. The latter is much slower but may find more issues due to cross-function control and data flow analysis.
+
+Recommendations:
+
+- Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections)
+- Enable the _“Analyze during ‘Build’”_ build setting for your release build configuration to have the analyzer run automatically during release builds. (Seriously, do this — you’re not going to remember to run it manually.)
+- Set the _“Mode of Analysis for ‘Analyze’”_ build setting to _Shallow (faster)_
+- Set the _“Mode of Analysis for ‘Build’”_ build setting to _Deep_
+
 ### [Faux Pas](http://fauxpasapp.com/)
 
 Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!

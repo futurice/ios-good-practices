@@ -291,6 +291,17 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 
 The most important point is to keep these consistent across your project's classes.
 
+### External Style Guides
+
+Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the Objective-C style guides of other development shops, even if some bits can be quite company-specific or opinionated:
+
+* [GitHub](https://github.com/github/objective-c-style-guide)
+* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* [The New York Times](https://github.com/NYTimes/objective-c-style-guide)
+* [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide)
+* [Sam Soffes](https://gist.github.com/soffes/812796)
+* [Luke Redpath](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
+
 ## Diagnostics
 
 ### Compiler warnings

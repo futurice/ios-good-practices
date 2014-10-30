@@ -215,6 +215,22 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ## Coding Style
 
+### Naming
+
+Apple pays great attention to keep naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html).
+
+Here are some basic takeaways you can start using right away:
+
+A method beginning with a _verb_ indicates that it performs some side effects, but won't return anything:
+`- (void)loadView;`
+`- (void)startAnimating;`
+
+Any method starting with a _noun_, however, returns that object and should do so without side effects:
+`- (UINavigationItem *)navigationItem;`
+`+ (UILabel *)labelWithText:(NSString *)text;`
+
+It pays off to keep these two as separated as possible, i.e. not perform side effects when you transform data, and vice versa. That will keep your side effects contained to smaller sections of the code, which makes it more understandable and facilitates debugging.
+
 ### Structure
 
 [Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:

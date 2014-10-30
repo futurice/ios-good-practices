@@ -106,10 +106,14 @@ If you prefer to write your views in code, chances are you've met either of Appl
 ## Architecture
 
 * [Model-View-Controller-Store (MVCS)](http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store)
-    * Stores handle all networking, cache data etc.
+    * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
     * Expose either `RACSignal`s or void-returning methods with custom completion blocks
 * [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
-    * Quite new concept for Cocoa developers, but gaining traction
+    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
+    * Quite new concept for Cocoa developers, but [gaining](http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html) [traction](http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1)
+* [View-Interactor-Presenter-Entity-Routing (VIPER)](http://www.objc.io/issue-13/viper.html)
+    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
+
 
 ### “Event” Patterns
 

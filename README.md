@@ -111,7 +111,7 @@ If you prefer to write your views in code, chances are you've met either of Appl
 * [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
     * Quite new concept for Cocoa developers, but gaining traction
 
-### Common Patterns
+### “Event” Patterns
 
 * __Delegation:__ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
 * __Callback blocks:__ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.

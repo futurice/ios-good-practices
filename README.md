@@ -1,17 +1,17 @@
 iOS Good Practices
 ==================
 
-_Just like software, this document will rot unless taken care of. To keep the threshold of updating as low as possible, you can edit it the way every developer loves: through version control._
+_Just like software, this document will rot unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
 
 ## Why?
 
-Getting on board with iOS can be intimidating. A weird language, own names for almost everything – not to mention the bumpy road for your code to actually make it onto the device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
+Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are widely used elsewhere, the platform has its own names for almost everything, and it's a bumpy road for your code to actually make it onto a physical device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
 
 ## Getting Started
 
 ### Xcode
 
-[Xcode](https://developer.apple.com/xcode/) is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, but unless you're already a seasoned iOS person, go with Xcode. It's actually quite usable nowadays.
+[Xcode](https://developer.apple.com/xcode/) is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, of which [AppCode](https://www.jetbrains.com/objc/) is arguably the most famous, but unless you're already a seasoned iOS person, go with Xcode. It's actually quite usable nowadays!
 
 To install, simply download [Xcode on the Mac App Store](https://itunes.apple.com/us/app/xcode/id497799835). It comes with the newest SDK and simulators, and you can install more stuff under _Preferences > Downloads_.
 
@@ -78,7 +78,7 @@ Keep app-wide constants in a `Constants.h` file that is included in the prefix h
 Instead of preprocessor macro definitions (via `#define`), use actual constants:
 
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
-    static NSString* const XYZAwesomenessDeliveredNotificationName = @"foo";
+    static NSString * const XYZAwesomenessDeliveredNotificationName = @"foo";
 
 Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
@@ -106,10 +106,14 @@ If you prefer to write your views in code, chances are you've met either of Appl
 ## Architecture
 
 * [Model-View-Controller-Store (MVCS)](http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store)
-    * Stores handle all networking, cache data etc.
-    * Expose either `RACSignal`s or void-returning methods with custom completion blocks
+    * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
+    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
 * [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
-    * Quite new concept for Cocoa developers, but gaining traction
+    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
+    * Quite new concept for Cocoa developers, but [gaining](http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html) [traction](http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1)
+* [View-Interactor-Presenter-Entity-Routing (VIPER)](http://www.objc.io/issue-13/viper.html)
+    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
+
 
 ### “Event” Patterns
 
@@ -211,11 +215,46 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ## Coding Style
 
+### Naming
+
+Apple pays great attention to keep naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html).
+
+Here are some basic takeaways you can start using right away:
+
+A method beginning with a _verb_ indicates that it performs some side effects, but won't return anything:
+`- (void)loadView;`
+`- (void)startAnimating;`
+
+Any method starting with a _noun_, however, returns that object and should do so without side effects:
+`- (UINavigationItem *)navigationItem;`
+`+ (UILabel *)labelWithText:(NSString *)text;`
+
+It pays off to keep these two as separated as possible, i.e. not perform side effects when you transform data, and vice versa. That will keep your side effects contained to smaller sections of the code, which makes it more understandable and facilitates debugging.
+
 ### Structure
 
 [Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
 
 ```objective-c
+
+#import "SomeModel.h"
+#import "SomeView.h"
+#import "SomeController.h"
+#import "SomeStore.h"
+#import "SomeHelper.h"
+#import <SomeExternalLibrary/SomeExternalLibraryHeader.h>
+
+static NSString * const XYZFooStringConstant = @"FoobarConstant";
+static CGFloat const XYZFooFloatConstant = 1234.5;
+
+@interface XYZFooViewController () <XYZBarDelegate>
+
+@property (nonatomic, copy)
+
+@end
+
+@implementation XYZFooViewController
+
 #pragma mark - Lifecycle
 
 - (instancetype)initWithFoo:(Foo *)foo;
@@ -246,6 +285,8 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 #pragma mark - Internal Helpers
 
 - (NSString *)displayNameForFoo:(Foo *)foo;
+
+@end
 ```
 
 The most important point is to keep these consistent across your project's classes.
@@ -355,7 +396,7 @@ Find more information about this topic in [these presentation slides][xcconfig-s
 
 A target resides conceptually below the project level, i.e. a project can have several targets that may override its project settings. Roughly, each target corresponds to "an app" within the context of your codebase. For instance, you could have country-specific apps (built from the same codebase) for different countries' App Stores. Each of these will need development/staging/release builds, so it's better to handle those through build configurations, not targets. It's not uncommon at all for an app to only have a single target.
 
-## Schemes
+### Schemes
 
 Schemes tell Xcode what should happen when you hit the Run, Test, Profile, Analyze or Archive action. Basically, they map each of these actions to a target and a build configuration. You can also pass launch arguments, such as the language the app should run in (handy for testing your localizations!) or set some diagnostic flags for debugging.
 
@@ -395,3 +436,11 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 - Update for Xcode 6
     - No automatic precompiled header
 - Pod usage: `pod install` vs `pod update`
+- iTunes Connect etc.
+- 3x assets, iPhone 6 screen sizes explained
+- Add @interface and constants to VC Structure
+- Add list of suggested compiler warnings
+- Ask IT about automated Jenkins build machine
+- Add section on Testing
+- Add section on Debugging, e.g. exception breakpoints
+- Add "proven don'ts"

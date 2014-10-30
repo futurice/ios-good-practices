@@ -11,7 +11,7 @@ Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are
 
 ### Xcode
 
-[Xcode](https://developer.apple.com/xcode/) is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, but unless you're already a seasoned iOS person, go with Xcode. It's actually quite usable nowadays.
+[Xcode](https://developer.apple.com/xcode/) is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, of which [AppCode](https://www.jetbrains.com/objc/) is arguably the most famous, but unless you're already a seasoned iOS person, go with Xcode. It's actually quite usable nowadays!
 
 To install, simply download [Xcode on the Mac App Store](https://itunes.apple.com/us/app/xcode/id497799835). It comes with the newest SDK and simulators, and you can install more stuff under _Preferences > Downloads_.
 

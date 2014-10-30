@@ -73,11 +73,14 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep app-wide constants in a `Constants.h` file that is included in the prefix header. For constants, use the syntax
+Keep app-wide constants in a `Constants.h` file that is included in the prefix header.
+
+Instead of preprocessor macro definitions (via `#define`), use actual constants:
 
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
+    static NSString* const XYZAwesomenessDeliveredNotificationName = @"foo";
 
-instead of `#define` for better type safety.
+Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
 
 ### Branching Model

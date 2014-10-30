@@ -73,11 +73,14 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep app-wide constants in a `Constants.h` file that is included in the prefix header. For constants, use the syntax
+Keep app-wide constants in a `Constants.h` file that is included in the prefix header.
+
+Instead of preprocessor macro definitions (via `#define`), use actual constants:
 
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
+    static NSString* const XYZAwesomenessDeliveredNotificationName = @"foo";
 
-instead of `#define` for better type safety.
+Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
 
 ### Branching Model
@@ -95,7 +98,7 @@ A perceived 99.95 percent of iOS developers use this network library. Sure, iOS 
 ### DateTools
 As a general rule, don't write your date calculations yourself. [(Here's why.)](https://www.youtube.com/watch?v=-5wpm-gesOY) Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
 
-### [Masonry](https://www.github.com/Masonry/Masonry) and Friends
+### Auto Layout Libraries
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language](https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1). The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
 
 [Masonry](https://www.github.com/Masonry/Masonry) remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography](https://github.com/robb/Cartography), which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout](https://github.com/floriankugler/FLKAutoLayout) offers a clean, but rather non-magical wrapper around the native APIs.
@@ -108,11 +111,15 @@ If you prefer to write your views in code, chances are you've met either of Appl
 * [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
     * Quite new concept for Cocoa developers, but gaining traction
 
-### Common Patterns
+### “Event” Patterns
 
-* __Delegation:__ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
-* __Callback blocks:__ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
-* __Signals:__ The centerpiece of [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell](http://elm-lang.org/learn/Escape-from-Callback-Hell.elm).
+These are the idiomatic ways for components to notify others about things:
+
+* __Delegation:__ _(one-to-one)_ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
+* __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
+* __Notification Center:__ _(one-to-many)_ Possibly the most common way for objects to emit “events” to multiple observers. Very loose coupling — notifications can even be observed globally without reference to the dispatching object.
+* __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
+* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell](http://elm-lang.org/learn/Escape-from-Callback-Hell.elm).
 
 ### Models
 
@@ -180,6 +187,8 @@ This allows us to transform or filter gigs before showing them, by combining the
 
 [Asset catalogs](https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html) are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
 
+### Using Bitmap Images
+
 Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. However, some discipline when naming assets can make life easier:
 
 ```objective-c
@@ -193,6 +202,12 @@ IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
 ```
 
 The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
+
+### Using Vector Images
+
+You can include the original [vector graphics (PDFs)][vector-assets] produced by designers into the asset catalogs, and have Xcode automatically generate the bitmaps from that. This reduces the complexity of your project (the number of files to manage.)
+
+[vector-assets]: http://martiancraft.com/blog/2014/09/vector-images-xcode6/
 
 ## Coding Style
 
@@ -300,6 +315,20 @@ A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, tha
 ```
 
 This has the additional advantage of allowing you to swap out the entire Analytics framework behind the scenes if needed, without the rest of the app noticing.
+
+### Crash Logs
+
+First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
+
+* [Crashlytics](http://www.crashlytics.com)
+* [HockeyApp](http://hockeyapp.net)
+* [Crittercism](https://www.crittercism.com)
+* [Splunk MINTexpress](https://mint.splunk.com)
+
+[PLCrashReporter]: https://www.plcrashreporter.org
+
+Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
+
 
 ## Building
 

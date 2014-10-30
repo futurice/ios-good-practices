@@ -95,7 +95,7 @@ A perceived 99.95 percent of iOS developers use this network library. Sure, iOS 
 ### DateTools
 As a general rule, don't write your date calculations yourself. [(Here's why.)](https://www.youtube.com/watch?v=-5wpm-gesOY) Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
 
-### [Masonry](https://www.github.com/Masonry/Masonry) and Friends
+### Auto Layout Libraries
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language](https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1). The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
 
 [Masonry](https://www.github.com/Masonry/Masonry) remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography](https://github.com/robb/Cartography), which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout](https://github.com/floriankugler/FLKAutoLayout) offers a clean, but rather non-magical wrapper around the native APIs.

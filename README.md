@@ -107,7 +107,7 @@ If you prefer to write your views in code, chances are you've met either of Appl
 
 * [Model-View-Controller-Store (MVCS)](http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store)
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
-    * Expose either `RACSignal`s or void-returning methods with custom completion blocks
+    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
 * [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
     * Quite new concept for Cocoa developers, but [gaining](http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html) [traction](http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1)

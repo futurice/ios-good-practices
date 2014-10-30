@@ -78,7 +78,7 @@ Keep app-wide constants in a `Constants.h` file that is included in the prefix h
 Instead of preprocessor macro definitions (via `#define`), use actual constants:
 
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
-    static NSString* const XYZAwesomenessDeliveredNotificationName = @"foo";
+    static NSString * const XYZAwesomenessDeliveredNotificationName = @"foo";
 
 Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
@@ -236,6 +236,25 @@ It pays off to keep these two as separated as possible, i.e. not perform side ef
 [Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
 
 ```objective-c
+
+#import "SomeModel.h"
+#import "SomeView.h"
+#import "SomeController.h"
+#import "SomeStore.h"
+#import "SomeHelper.h"
+#import <SomeExternalLibrary/SomeExternalLibraryHeader.h>
+
+static NSString * const XYZFooStringConstant = @"FoobarConstant";
+static CGFloat const XYZFooFloatConstant = 1234.5;
+
+@interface XYZFooViewController () <XYZBarDelegate>
+
+@property (nonatomic, copy)
+
+@end
+
+@implementation XYZFooViewController
+
 #pragma mark - Lifecycle
 
 - (instancetype)initWithFoo:(Foo *)foo;
@@ -266,6 +285,8 @@ It pays off to keep these two as separated as possible, i.e. not perform side ef
 #pragma mark - Internal Helpers
 
 - (NSString *)displayNameForFoo:(Foo *)foo;
+
+@end
 ```
 
 The most important point is to keep these consistent across your project's classes.

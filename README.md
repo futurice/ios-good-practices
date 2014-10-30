@@ -396,7 +396,7 @@ Find more information about this topic in [these presentation slides][xcconfig-s
 
 A target resides conceptually below the project level, i.e. a project can have several targets that may override its project settings. Roughly, each target corresponds to "an app" within the context of your codebase. For instance, you could have country-specific apps (built from the same codebase) for different countries' App Stores. Each of these will need development/staging/release builds, so it's better to handle those through build configurations, not targets. It's not uncommon at all for an app to only have a single target.
 
-## Schemes
+### Schemes
 
 Schemes tell Xcode what should happen when you hit the Run, Test, Profile, Analyze or Archive action. Basically, they map each of these actions to a target and a build configuration. You can also pass launch arguments, such as the language the app should run in (handy for testing your localizations!) or set some diagnostic flags for debugging.
 
@@ -436,3 +436,11 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 - Update for Xcode 6
     - No automatic precompiled header
 - Pod usage: `pod install` vs `pod update`
+- iTunes Connect etc.
+- 3x assets, iPhone 6 screen sizes explained
+- Add @interface and constants to VC Structure
+- Add list of suggested compiler warnings
+- Ask IT about automated Jenkins build machine
+- Add section on Testing
+- Add section on Debugging, e.g. exception breakpoints
+- Add "proven don'ts"

@@ -1,11 +1,11 @@
 iOS Good Practices
 ==================
 
-_Just like software, this document will rot unless taken care of. To keep the threshold of updating as low as possible, you can edit it the way every developer loves: through version control._
+_Just like software, this document will rot unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
 
 ## Why?
 
-Getting on board with iOS can be intimidating. A weird language, own names for almost everything – not to mention the bumpy road for your code to actually make it onto the device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
+Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are widely used elsewhere, the platform has its own names for almost everything, and it's a bumpy road for your code to actually make it onto a physical device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
 
 ## Getting Started
 

@@ -117,6 +117,7 @@ These are the idiomatic ways for components to notify others about things:
 
 * __Delegation:__ _(one-to-one)_ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
 * __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
+* __Notification Center:__ _(one-to-many)_ Possibly the most common way for objects to emit “events” to multiple observers. Very loose coupling — notifications can even be observed globally without reference to the dispatching object.
 * __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell](http://elm-lang.org/learn/Escape-from-Callback-Hell.elm).
 
 ### Models

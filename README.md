@@ -25,9 +25,19 @@ A common question when beginning an iOS project is whether to write all views in
 * In Xcode 5, universal apps require separate Storyboards for iPhone and iPad. This can result in a lot of needless duplication. Xcode 6 fixes this by introducing [Size Classes](http://blog.futurice.com/adaptive-view-ios8).
 * In Xcode 5, custom fonts and UI elements cannot be represented visually in Storyboards, but will have a generic appearance instead. Again, this changes in Xcode 6.
 * Storyboards are more prone to version conflicts due to their complex XML structure.
+* No context shift. All you do is coding.
+* All the options are in one place. In Interface Builder you have to click through all the inspectors to find what you are searching for.
+* It's easier to post code than screenshots in case you need help on Stackoverflow ;).
+* If you finde code on github you can see without downloading how the interface is build.
+* Beta versions of Xcode sometimes change the storyboard format in a way that it can't be opend in the previous Xcode version.
+* Code is easier to refactor than storyboards.
+* It is impossible to inherit from a storyboard scene. I code you can easily make subclasses to reuse code. Using a storyboard you have to make two scenes even if they share 90% of their UI elements.
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
+* You can use the Preview assistant editor and see you interface without compiling.
+* You don't have to remember what the options are called because you can scan the checkboxes for what you are searching.
+* You can faster prototype with storyboards.
 
 ### Ignores
 

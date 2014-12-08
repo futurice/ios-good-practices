@@ -43,6 +43,8 @@ A common question when beginning an iOS project is whether to write all views in
 
 A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Objective-C](https://github.com/github/gitignore/blob/master/Objective-C.gitignore) and [Swift](https://github.com/github/gitignore/blob/master/Swift.gitignore).
 
+Alternatively you can get you gitignore file from [gitignore.io](https://www.gitignore.io).
+
 ### CocoaPods
 
 If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods](http://www.cocoapods.org) is the way to go. Install it like so:

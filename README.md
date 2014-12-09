@@ -93,9 +93,13 @@ Especially when distributing an app to the public (e.g. through the App Store), 
 
 ## Common Libraries
 
+Generally speaking, make it a conscious decision to add an external dependency to your project. Sure, this one neat library solves your problem now, but maybe later gets stuck in maintenance limbo, with the next OS version that breaks everything being just around the corner. Always consider solving the problem using Apple's extensive (and mostly excellent) frameworks first!
+
+Therefore this section has been deliberately kept rather short. The libraries featured here tend to reduce boilerplate code (e.g. Auto Layout) or solve complex problems that require extensive testing, such as date calculations. As you become more proficient with iOS, be sure to dive into the source here and there, and acquaint yourself with their underlying Apple frameworks. You'll find that those alone can do a lot of the heavy lifting.
+
 ### AFNetworking
 
-A perceived 99.95 percent of iOS developers use this network library. Sure, iOS 7's `NSURLSession` brought some nice improvements to the rather dated native networking APIs, but `AFNetworking` is still unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
 
 ### DateTools
 As a general rule, don't write your date calculations yourself. [(Here's why.)](https://www.youtube.com/watch?v=-5wpm-gesOY) Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.

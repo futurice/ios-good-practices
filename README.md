@@ -24,10 +24,13 @@ A common question when beginning an iOS project is whether to write all views in
 #### Why code?
 * In Xcode 5, universal apps require separate Storyboards for iPhone and iPad. This can result in a lot of needless duplication. Xcode 6 fixes this by introducing [Size Classes](http://blog.futurice.com/adaptive-view-ios8).
 * In Xcode 5, custom fonts and UI elements cannot be represented visually in Storyboards, but will have a generic appearance instead. Again, this changes in Xcode 6.
-* Storyboards are more prone to version conflicts due to their complex XML structure.
+* Storyboards are more prone to version conflicts due to their complex XML structure. This makes merging much harder than with code.
+* [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself). It's easier to structure and reuse views in code.
+* All setup is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
+* Iteration is often faster since you can preview changes without building the project.
 
 ### Ignores
 

@@ -141,7 +141,7 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Controllers
 
-Use dependency injection instead of keeping all state around in singletons. The latter is okay only if that state _really_ is global.
+Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. Singletons are okay only if the state _really_ is global.
 
 ```objective-c
 + [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];

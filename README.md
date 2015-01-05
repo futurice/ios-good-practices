@@ -466,3 +466,4 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 - Add section on Testing
 - Add section on Debugging, e.g. exception breakpoints
 - Add "proven don'ts"
+- Under Diagnostics, add section on Instruments and Automonkey

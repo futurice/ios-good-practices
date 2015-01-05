@@ -85,7 +85,7 @@ Instead of preprocessor macro definitions (via `#define`), use actual constants:
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
     static NSString * const XYZAwesomenessDeliveredNotificationName = @"foo";
 
-Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
+Actual constants are type-safe, have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
 
 ### Branching Model
@@ -141,7 +141,7 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Controllers
 
-Use dependency injection instead of keeping all state around in singletons. The latter is okay only if that state _really_ is global.
+Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. The latter is okay only if the state _really_ is global.
 
 ```objective-c
 + [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
@@ -171,11 +171,13 @@ typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
 ];
 ```
 
-This works, but can quickly lead to callback hell if you need to chain multiple requests. In that case, have a look at [ReactiveCocoa (RAC)](https://www.github.com/ReactiveCocoa/ReactiveCocoa). It's a versatile and multi-purpose library that can change the way people write [entire apps](https://github.com/jspahrsummers/GroceryList), but you can also use it sparingly where it fits the task.
-
-There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax](http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/) and [NSHipster](http://nshipster.com/reactivecocoa/).
+This works, but can quickly lead to callback hell if you need to chain multiple requests.
 
 ### Reactive way: Use RAC signals
+
+If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)](https://www.github.com/ReactiveCocoa/ReactiveCocoa). It's a versatile and multi-purpose library that can change the way people write [entire apps](https://github.com/jspahrsummers/GroceryList), but you can also use it sparingly where it fits the task.
+
+There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax](http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/) and [NSHipster](http://nshipster.com/reactivecocoa/).
 
 ```objective-c
 // GigStore.h
@@ -226,7 +228,7 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ### Naming
 
-Apple pays great attention to keep naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html).
+Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html).
 
 Here are some basic takeaways you can start using right away:
 
@@ -397,7 +399,7 @@ Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
-However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have their own base URL, log levels, bundle identifier (so you can install them side-by-side), provisinging profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
 
 #### `xcconfig` files for build settings
 
@@ -407,6 +409,7 @@ Typically build settings are specified in the Xcode GUI, but you can also use _c
 - You can `#include` other build settings files, which helps you avoid repeating yourself:
     - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
     - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
+- Conflict resolution and merging becomes easier
 
 Find more information about this topic in [these presentation slides][xcconfig-slides].
 
@@ -441,7 +444,7 @@ Whenever you want to run software on an actual device (as opposed to the simulat
 
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
-* __Development provisioning profile:__ It contains a list of all devices that the device is authorized to be built on. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
+* __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
     * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile is used for beta testing (e.g. TestFlight). Note that due to Apple's acquisition of TestFlight, this is likely to change in late 2014.
@@ -464,3 +467,4 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 - Add section on Testing
 - Add section on Debugging, e.g. exception breakpoints
 - Add "proven don'ts"
+- Under Diagnostics, add section on Instruments and Automonkey

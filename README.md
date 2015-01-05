@@ -171,11 +171,13 @@ typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
 ];
 ```
 
-This works, but can quickly lead to callback hell if you need to chain multiple requests. In that case, have a look at [ReactiveCocoa (RAC)](https://www.github.com/ReactiveCocoa/ReactiveCocoa). It's a versatile and multi-purpose library that can change the way people write [entire apps](https://github.com/jspahrsummers/GroceryList), but you can also use it sparingly where it fits the task.
-
-There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax](http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/) and [NSHipster](http://nshipster.com/reactivecocoa/).
+This works, but can quickly lead to callback hell if you need to chain multiple requests.
 
 ### Reactive way: Use RAC signals
+
+If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)](https://www.github.com/ReactiveCocoa/ReactiveCocoa). It's a versatile and multi-purpose library that can change the way people write [entire apps](https://github.com/jspahrsummers/GroceryList), but you can also use it sparingly where it fits the task.
+
+There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax](http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/) and [NSHipster](http://nshipster.com/reactivecocoa/).
 
 ```objective-c
 // GigStore.h

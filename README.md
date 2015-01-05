@@ -399,7 +399,7 @@ Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
-However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have their own base URL, log levels, bundle identifier (so you can install them side-by-side), provisinging profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
 
 #### `xcconfig` files for build settings
 
@@ -443,7 +443,7 @@ Whenever you want to run software on an actual device (as opposed to the simulat
 
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
-* __Development provisioning profile:__ It contains a list of all devices that the device is authorized to be built on. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
+* __Development provisioning profile:__ It contains a list of all devices that the project is authorized to be built on. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
     * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile is used for beta testing (e.g. TestFlight). Note that due to Apple's acquisition of TestFlight, this is likely to change in late 2014.

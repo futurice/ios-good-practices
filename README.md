@@ -85,7 +85,7 @@ Instead of preprocessor macro definitions (via `#define`), use actual constants:
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
     static NSString * const XYZAwesomenessDeliveredNotificationName = @"foo";
 
-Actual constants have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
+Actual constants are type-safe, have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
 
 ### Branching Model

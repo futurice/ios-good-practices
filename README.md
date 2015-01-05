@@ -409,6 +409,7 @@ Typically build settings are specified in the Xcode GUI, but you can also use _c
 - You can `#include` other build settings files, which helps you avoid repeating yourself:
     - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
     - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
+- Conflict resolution and merging becomes easier
 
 Find more information about this topic in [these presentation slides][xcconfig-slides].
 

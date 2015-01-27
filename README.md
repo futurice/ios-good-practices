@@ -445,31 +445,47 @@ For most environments the language is not needed, as the app will probably be in
 
 ## Deployment
 
-Deploying software for iOS is a pain. That being said, there are some things to know that will help you tremendously with it.
+Deploying software on iOS devices isn't exactly straightforward. That being said, here are some central concepts that, once understood, will help you tremendously with it.
+
+### Signing
 
 Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
 
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
 * __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
 
+### Provisioning
+
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
 * __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
-    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile is used for beta testing (e.g. TestFlight). Note that due to Apple's acquisition of TestFlight, this is likely to change in late 2014.
+    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight] service. Supertop offers a good [summary of its advantages and issues].
     * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
     * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
 
+[TestFlight]: https://developer.apple.com/testflight/
+[summary of its advantages and issues]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
+
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
+
+Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles` and hitting Space to toggle Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
+
+[Provisioning]: https://github.com/chockenberry/Provisioning
+
+### Uploading
+
+[iTunes Connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
+
+After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
+
+[iTunes Connect]: https://itunesconnect.apple.com
 
 ## More Ideas
 
 - [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
-- Update for Xcode 6
-    - No automatic precompiled header
 - Pod usage: `pod install` vs `pod update`
-- iTunes Connect etc.
 - 3x assets, iPhone 6 screen sizes explained
 - Add @interface and constants to VC Structure
 - Add list of suggested compiler warnings

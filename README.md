@@ -270,7 +270,7 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 
 @interface XYZFooViewController () <XYZBarDelegate>
 
-@property (nonatomic, copy)
+@property (nonatomic, copy, readonly) Foo *foo;
 
 @end
 
@@ -286,7 +286,7 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
 
-#pragma mark - Auto Layout
+#pragma mark - Layout
 
 - (void)makeViewConstraints;
 

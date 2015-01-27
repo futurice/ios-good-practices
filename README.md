@@ -22,15 +22,15 @@ To install, simply download [Xcode on the Mac App Store](https://itunes.apple.co
 A common question when beginning an iOS project is whether to write all views in code or use Interface Builder with Storyboards or XIB files. Both are known to occasionally result in working software. However, there are a few considerations:
 
 #### Why code?
-* In Xcode 5, universal apps require separate Storyboards for iPhone and iPad. This can result in a lot of needless duplication. Xcode 6 fixes this by introducing [Size Classes](http://blog.futurice.com/adaptive-view-ios8).
-* In Xcode 5, custom fonts and UI elements cannot be represented visually in Storyboards, but will have a generic appearance instead. Again, this changes in Xcode 6.
 * Storyboards are more prone to version conflicts due to their complex XML structure. This makes merging much harder than with code.
-* [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself). It's easier to structure and reuse views in code.
-* All setup is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
+* It's easier to structure and reuse views in code, thereby keeping your codebase [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+* All information is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
-* Iteration is often faster since you can preview changes without building the project.
+* Iteration is often faster since you can preview certain changes without building the project.
+* In Xcode 6, custom fonts and UI elements are finally represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
+* Starting with iOS 8, [Size Classes](http://blog.futurice.com/adaptive-view-ios8) allow you to design for different device types and screens without duplication.
 
 ### Ignores
 
@@ -351,7 +351,7 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 ### [Reveal] or [Spark Inspector]
 
-These powerful visual inspectors will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+These powerful visual inspectors will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Granted, Xcode offers [something very similar](https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html) for free, but it's iOS 8+ only and feels somewhat less polished.
 
 [Reveal]: http://revealapp.com/
 [Spark Inspector]: http://sparkinspector.com

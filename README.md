@@ -359,9 +359,11 @@ Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux 
 
 _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
-### [Reveal] or [Spark Inspector]
+### Debugging
 
-These powerful visual inspectors will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Granted, Xcode offers [something very similar](https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html) for free, but it's iOS 8+ only and feels somewhat less polished.
+It's a good idea to add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever the app is about to crash. In many cases, you will then see the line of code responsible for the exception.
+
+For view debugging, [Reveal] and [Spark Inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar](https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html) for free, but it's iOS 8+ only and feels somewhat less polished.
 
 [Reveal]: http://revealapp.com/
 [Spark Inspector]: http://sparkinspector.com
@@ -461,12 +463,12 @@ Besides certificates, there are also __provisioning profiles__, which are basica
 * __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
-    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight] service. Supertop offers a good [summary of its advantages and issues].
+    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight] service. Supertop offers a good [summary of its advantages and issues][TestFlight discussion].
     * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
     * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
 
 [TestFlight]: https://developer.apple.com/testflight/
-[summary of its advantages and issues]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
+[TestFlight discussion]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
 
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
@@ -487,10 +489,8 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 - [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
 - Pod usage: `pod install` vs `pod update`
 - 3x assets, iPhone 6 screen sizes explained
-- Add @interface and constants to VC Structure
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine
 - Add section on Testing
-- Add section on Debugging, e.g. exception breakpoints
 - Add "proven don'ts"
 - Under Diagnostics, add section on Instruments and Automonkey

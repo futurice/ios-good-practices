@@ -138,6 +138,16 @@ These are the idiomatic ways for components to notify others about things:
 
 Keep your models immutable, and use them to translate the remote API's semantics and types to your app. Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice.
 
+### Views
+
+When laying out your views using Auto Layout, be sure to add the following to your class:
+
+    + (BOOL)requiresConstraintBasedLayout
+    {
+        return YES;
+    }
+
+Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to.
 
 ### Controllers
 

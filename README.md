@@ -52,7 +52,7 @@ A good first step when putting a project under version control is to have a dece
 
 ### CocoaPods
 
-If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods](http://www.cocoapods.org) is the way to go. Install it like so:
+If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods][cocoapods] offers easy and fast integration. Install it like so:
 
     sudo gem install cocoapods
 
@@ -64,7 +64,14 @@ This creates a Podfile, which will hold all your dependencies in one place. You 
 
     pod install
 
-to install these dependencies and include them as part of a workspace which also holds your own project. Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile.
+to install these dependencies and include them as part of a workspace which also holds your own project. Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
+
+    pod update
+
+will update all pods to the newest versions permitted by the Podfile. You can use a wealth of [operators][cocoapods-pod-syntax] to specify your exact version requirements.
+
+[cocoapods]: http://www.cocoapods.org
+[cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 
 ### Project Structure
 
@@ -531,7 +538,6 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 
 ## More Ideas
 
-- Pod usage: `pod install` vs `pod update`
 - 3x assets, iPhone 6 screen sizes explained
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine

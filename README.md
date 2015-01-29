@@ -3,7 +3,10 @@ iOS Good Practices
 
 _Just like software, this document will rot unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
 
-Interested in other mobile platforms? Our [Best Practices in Android Development](https://github.com/futurice/android-best-practices) and [Windows Client Good Practices](https://github.com/futurice/win-client-dev-good-practices) documents have got you covered.
+Interested in other mobile platforms? Our [Best Practices in Android Development][android-best-practices] and [Windows Client Good Practices][win-client-dev-good-practices] documents have got you covered.
+
+[android-best-practices]: https://github.com/futurice/android-best-practices
+[win-client-dev-good-practices]: https://github.com/futurice/win-client-dev-good-practices
 
 ## Why?
 
@@ -13,32 +16,43 @@ Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are
 
 ### Xcode
 
-[Xcode](https://developer.apple.com/xcode/) is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, of which [AppCode](https://www.jetbrains.com/objc/) is arguably the most famous, but unless you're already a seasoned iOS person, go with Xcode. It's actually quite usable nowadays!
+[Xcode][xcode] is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, of which [AppCode][appcode] is arguably the most famous, but unless you're already a seasoned iOS person, go with Xcode. Despite its shortcomings, it's actually quite usable nowadays!
 
-To install, simply download [Xcode on the Mac App Store](https://itunes.apple.com/us/app/xcode/id497799835). It comes with the newest SDK and simulators, and you can install more stuff under _Preferences > Downloads_.
+To install, simply download [Xcode on the Mac App Store][xcode-app-store]. It comes with the newest SDK and simulators, and you can install more stuff under _Preferences > Downloads_.
+
+[xcode]: https://developer.apple.com/xcode/
+[appcode]: https://www.jetbrains.com/objc/
+[xcode-app-store]: https://itunes.apple.com/us/app/xcode/id497799835
 
 ### Project Setup
 
 A common question when beginning an iOS project is whether to write all views in code or use Interface Builder with Storyboards or XIB files. Both are known to occasionally result in working software. However, there are a few considerations:
 
 #### Why code?
-* In Xcode 5, universal apps require separate Storyboards for iPhone and iPad. This can result in a lot of needless duplication. Xcode 6 fixes this by introducing [Size Classes](http://blog.futurice.com/adaptive-view-ios8).
-* In Xcode 5, custom fonts and UI elements cannot be represented visually in Storyboards, but will have a generic appearance instead. Again, this changes in Xcode 6.
 * Storyboards are more prone to version conflicts due to their complex XML structure. This makes merging much harder than with code.
-* [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself). It's easier to structure and reuse views in code.
-* All setup is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
+* It's easier to structure and reuse views in code, thereby keeping your codebase [DRY][dry].
+* All information is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
+
+[dry]: http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
-* Iteration is often faster since you can preview changes without building the project.
+* Iteration is often faster since you can preview certain changes without building the project.
+* In Xcode 6, custom fonts and UI elements are finally represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
+* Starting with iOS 8, [Size Classes][size-classes] allow you to design for different device types and screens without duplication.
+
+[size-classes]: http://blog.futurice.com/adaptive-view-ios8
 
 ### Ignores
 
-A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Objective-C](https://github.com/github/gitignore/blob/master/Objective-C.gitignore) and [Swift](https://github.com/github/gitignore/blob/master/Swift.gitignore).
+A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Objective-C][objc-gitignore] and [Swift][swift-gitignore].
+
+[objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
+[swift-gitignore]: https://github.com/github/gitignore/blob/master/Swift.gitignore
 
 ### CocoaPods
 
-If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods](http://www.cocoapods.org) is the way to go. Install it like so:
+If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods][cocoapods] offers easy and fast integration. Install it like so:
 
     sudo gem install cocoapods
 
@@ -50,7 +64,14 @@ This creates a Podfile, which will hold all your dependencies in one place. You 
 
     pod install
 
-to install these dependencies and include them as part of a workspace which also holds your own project. Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile.
+to install these dependencies and include them as part of a workspace which also holds your own project. Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
+
+    pod update
+
+will update all pods to the newest versions permitted by the Podfile. You can use a wealth of [operators][cocoapods-pod-syntax] to specify your exact version requirements.
+
+[cocoapods]: http://www.cocoapods.org
+[cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 
 ### Project Structure
 
@@ -70,10 +91,12 @@ Keep all user strings in localization files right from the beginning. This is go
 
     -AppleLanguages (Finnish)
 
-For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format](https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html) instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
+For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format][stringsdict-format] instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic][language-plural-rules].
 
 Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant in October 2014.
 
+[stringsdict-format]: https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html
+[language-plural-rules]: http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 [l10n-slides]: https://speakerdeck.com/hasseg/localization-practicum
 
 #### Constants
@@ -90,9 +113,11 @@ Actual constants are type-safe, have more explicit scope (they’re not availabl
 
 ### Branching Model
 
-Especially when distributing an app to the public (e.g. through the App Store), it's a good idea to isolate releases to their own branch with proper tags. Also, feature work that involves a lot of commits should be done on its own branch. [`git-flow`](https://github.com/nvie/gitflow) is a tool that helps you follow these conventions. It is simply a convenience wrapper around Git's branching and tagging commands, but can help maintain a proper branching structure especially for teams. Do all development on feature branches (or on `develop` for smaller work), tag releases with the app version, and commit to master only via
+Especially when distributing an app to the public (e.g. through the App Store), it's a good idea to isolate releases to their own branch with proper tags. Also, feature work that involves a lot of commits should be done on its own branch. [`git-flow`][gitflow-github] is a tool that helps you follow these conventions. It is simply a convenience wrapper around Git's branching and tagging commands, but can help maintain a proper branching structure especially for teams. Do all development on feature branches (or on `develop` for smaller work), tag releases with the app version, and commit to master only via
 
     git flow release finish <version>
+
+[gitflow-github]: https://github.com/nvie/gitflow
 
 ## Common Libraries
 
@@ -105,24 +130,36 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
 
 ### DateTools
-As a general rule, don't write your date calculations yourself. [(Here's why.)](https://www.youtube.com/watch?v=-5wpm-gesOY) Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+
+[timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
 
 ### Auto Layout Libraries
-If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language](https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1). The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
+If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
 
-[Masonry](https://www.github.com/Masonry/Masonry) remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography](https://github.com/robb/Cartography), which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout](https://github.com/floriankugler/FLKAutoLayout) offers a clean, but rather non-magical wrapper around the native APIs.
+[Masonry][masonry-github] remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
+
+[visual-format-language]: https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1
+[masonry-github]: https://www.github.com/Masonry/Masonry
+[cartography-github]: https://github.com/robb/Cartography
+[flkautolayout-github]: https://github.com/floriankugler/FLKAutoLayout
 
 ## Architecture
 
-* [Model-View-Controller-Store (MVCS)](http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store)
+* [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
     * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
-* [Model-View-ViewModel (MVVM)](http://www.objc.io/issue-13/mvvm.html)
+* [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
-    * Quite new concept for Cocoa developers, but [gaining](http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html) [traction](http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1)
-* [View-Interactor-Presenter-Entity-Routing (VIPER)](http://www.objc.io/issue-13/viper.html)
+    * Quite new concept for Cocoa developers, but [gaining][cocoasamurai-rac] [traction][raywenderlich-mvvm]
+* [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
 
+[mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
+[mvvm]: http://www.objc.io/issue-13/mvvm.html
+[cocoasamurai-rac]: http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html
+[raywenderlich-mvvm]: http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1
+[viper]: http://www.objc.io/issue-13/viper.html
 
 ### “Event” Patterns
 
@@ -132,12 +169,24 @@ These are the idiomatic ways for components to notify others about things:
 * __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
 * __Notification Center:__ _(one-to-many)_ Possibly the most common way for objects to emit “events” to multiple observers. Very loose coupling — notifications can even be observed globally without reference to the dispatching object.
 * __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
-* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell](http://elm-lang.org/learn/Escape-from-Callback-Hell.elm).
+* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell][elm-escape-from-callback-hell].
+
+[elm-escape-from-callback-hell]: http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
 
 ### Models
 
 Keep your models immutable, and use them to translate the remote API's semantics and types to your app. Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice.
 
+### Views
+
+When laying out your views using Auto Layout, be sure to add the following to your class:
+
+    + (BOOL)requiresConstraintBasedLayout
+    {
+        return YES;
+    }
+
+Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to.
 
 ### Controllers
 
@@ -175,9 +224,13 @@ This works, but can quickly lead to callback hell if you need to chain multiple 
 
 ### Reactive way: Use RAC signals
 
-If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)](https://www.github.com/ReactiveCocoa/ReactiveCocoa). It's a versatile and multi-purpose library that can change the way people write [entire apps](https://github.com/jspahrsummers/GroceryList), but you can also use it sparingly where it fits the task.
+If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)][reactivecocoa-github]. It's a versatile and multi-purpose library that can change the way people write [entire apps][groceryList-github], but you can also use it sparingly where it fits the task.
 
-There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax](http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/) and [NSHipster](http://nshipster.com/reactivecocoa/).
+There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax][teehan-lax-rac] and [NSHipster][nshipster-rac].
+
+[grocerylist-github]: https://github.com/jspahrsummers/GroceryList
+[teehan-lax-rac]: http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/
+[nshipster-rac]: http://nshipster.com/reactivecocoa/
 
 ```objective-c
 // GigStore.h
@@ -200,7 +253,9 @@ This allows us to transform or filter gigs before showing them, by combining the
 
 ## Assets
 
-[Asset catalogs](https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html) are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
+[Asset catalogs][asset-catalogs] are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
+
+[asset-catalogs]: https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html
 
 ### Using Bitmap Images
 
@@ -228,7 +283,9 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ### Naming
 
-Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html).
+Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions][cocoa-coding-guidelines].
+
+[cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
 
 Here are some basic takeaways you can start using right away:
 
@@ -260,7 +317,7 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 
 @interface XYZFooViewController () <XYZBarDelegate>
 
-@property (nonatomic, copy)
+@property (nonatomic, copy, readonly) Foo *foo;
 
 @end
 
@@ -276,7 +333,7 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
 
-#pragma mark - Auto Layout
+#pragma mark - Layout
 
 - (void)makeViewConstraints;
 
@@ -345,20 +402,27 @@ Recommendations:
 
 ### [Faux Pas](http://fauxpasapp.com/)
 
-Created by our very own [Ali Rantakari](https://twitter.com/AliRantakari), Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
+Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
 
 _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
-### [Reveal] or [Spark Inspector]
+[ali-rantakari-twitter]: https://twitter.com/AliRantakari
 
-These powerful visual inspectors will save you hours of time when debugging your views, especially if you're using Auto Layout (and you should). Xcode 6 will include [something very similar](http://www.cmenschel.de/xcode-6-view-debugging) for free, though, so maybe just hold off on that purchase until launch day.
+### Debugging
 
-[Reveal]: http://revealapp.com/
-[Spark Inspector]: http://sparkinspector.com
+It's a good idea to add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever the app is about to crash. In many cases, you will then see the line of code responsible for the exception.
+
+For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
+
+[reveal]: http://revealapp.com/
+[spark-inspector]: http://sparkinspector.com
+[xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
 
 ## Analytics
 
-Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager](http://www.google.com/tagmanager/). The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
+Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager][google-tag-manager]. The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
+
+[google-tag-manager]: http://www.google.com/tagmanager/
 
 A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
 
@@ -381,14 +445,14 @@ This has the additional advantage of allowing you to swap out the entire Analyti
 
 ### Crash Logs
 
-First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
+First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter][plcrashreporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
 
 * [Crashlytics](http://www.crashlytics.com)
 * [HockeyApp](http://hockeyapp.net)
 * [Crittercism](https://www.crittercism.com)
 * [Splunk MINTexpress](https://mint.splunk.com)
 
-[PLCrashReporter]: https://www.plcrashreporter.org
+[plcrashreporter]: https://www.plcrashreporter.org
 
 Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
 
@@ -399,7 +463,9 @@ Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
-However, this is a bit too simple for real-world applications. You might – no, [_should!_](https://blog.futurice.com/five-environments-you-cannot-develop-without) – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+However, this is a bit too simple for real-world applications. You might – no, [_should!_][futurice-environments] – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
+
+[futurice-environments]: https://blog.futurice.com/five-environments-you-cannot-develop-without
 
 #### `xcconfig` files for build settings
 
@@ -435,36 +501,50 @@ For most environments the language is not needed, as the app will probably be in
 
 ## Deployment
 
-Deploying software for iOS is a pain. That being said, there are some things to know that will help you tremendously with it.
+Deploying software on iOS devices isn't exactly straightforward. That being said, here are some central concepts that, once understood, will help you tremendously with it.
+
+### Signing
 
 Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
 
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
 * __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
 
+### Provisioning
+
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
 * __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
-    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile is used for beta testing (e.g. TestFlight). Note that due to Apple's acquisition of TestFlight, this is likely to change in late 2014.
+    * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight][testflight] service. Supertop offers a good [summary of its advantages and issues][testflight-discussion].
     * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
     * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
 
+[testflight]: https://developer.apple.com/testflight/
+[testflight-discussion]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
+
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
+
+Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles` and hitting Space to toggle Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
+
+[provisioning]: https://github.com/chockenberry/Provisioning
+
+### Uploading
+
+[iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
+
+After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
+
+[itunes-connect]: https://itunesconnect.apple.com
 
 ## More Ideas
 
-- [https://github.com/vsouza/awesome-ios](https://github.com/vsouza/awesome-ios)
-- Update for Xcode 6
-    - No automatic precompiled header
-- Pod usage: `pod install` vs `pod update`
-- iTunes Connect etc.
 - 3x assets, iPhone 6 screen sizes explained
-- Add @interface and constants to VC Structure
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine
 - Add section on Testing
-- Add section on Debugging, e.g. exception breakpoints
 - Add "proven don'ts"
 - Under Diagnostics, add section on Instruments and Automonkey
+
+[reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa

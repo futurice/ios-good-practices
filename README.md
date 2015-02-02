@@ -3,10 +3,10 @@ iOS Good Practices
 
 _Just like software, this document will rot unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
 
-Interested in other mobile platforms? Our [Best Practices in Android Development][android-best-practices] and [Windows Client Good Practices][win-client-dev-good-practices] documents have got you covered.
+Interested in other mobile platforms? Our [Best Practices in Android Development][android-best-practices] and [Windows App Development Best Practices][windows-app-development-best-practices] documents have got you covered.
 
 [android-best-practices]: https://github.com/futurice/android-best-practices
-[win-client-dev-good-practices]: https://github.com/futurice/win-client-dev-good-practices
+[windows-app-development-best-practices]: https://github.com/futurice/windows-app-development-best-practices
 
 ## Why?
 

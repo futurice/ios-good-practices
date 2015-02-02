@@ -421,6 +421,14 @@ For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are 
 [spark-inspector]: http://sparkinspector.com
 [xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
 
+### Profiling
+
+Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
+
+Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
+
+[ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
+
 ## Analytics
 
 Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager][google-tag-manager]. The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
@@ -550,6 +558,5 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 - Ask IT about automated Jenkins build machine
 - Add section on Testing
 - Add "proven don'ts"
-- Under Diagnostics, add section on Instruments and Automonkey
 
 [reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa

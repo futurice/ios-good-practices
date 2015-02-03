@@ -546,5 +546,5 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 - Add section on Testing
 - Add "proven don'ts"
 - Under Diagnostics, add section on Instruments and Automonkey
-
+- Uder Debug / Crash add reference to [HelloDebug]: http://hellodebug.com for debugging production bugs
 [reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa

@@ -60,11 +60,13 @@ To get started, move inside your iOS project folder and run
 
     pod init
 
-This creates a Podfile, which will hold all your dependencies in one place. You can then
+This creates a Podfile, which will hold all your dependencies in one place. After adding your dependencies to the Podfile, you run
 
     pod install
 
-to install these dependencies and include them as part of a workspace which also holds your own project. Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
+to install the libraries and include them as part of a workspace which also holds your own project. It is generally [recommended to commit the installed dependencies to your own repo][committing-pods], instead of relying on having each developer running `pod install` after a fresh checkout.
+
+Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
 
     pod update
 
@@ -72,6 +74,7 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 
 [cocoapods]: http://www.cocoapods.org
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
+[committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
 
 ### Project Structure
 
@@ -410,13 +413,21 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 ### Debugging
 
-It's a good idea to add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever the app is about to crash. In many cases, you will then see the line of code responsible for the exception.
+When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_. 
 
 For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com
 [xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
+
+### Profiling
+
+Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
+
+Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
+
+[ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
 ## Analytics
 
@@ -526,7 +537,9 @@ Besides certificates, there are also __provisioning profiles__, which are basica
 
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
-Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles` and hitting Space to toggle Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
+#### Debugging Provisioning
+
+Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
 
 [provisioning]: https://github.com/chockenberry/Provisioning
 
@@ -545,6 +558,5 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 - Ask IT about automated Jenkins build machine
 - Add section on Testing
 - Add "proven don'ts"
-- Under Diagnostics, add section on Instruments and Automonkey
 
 [reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa

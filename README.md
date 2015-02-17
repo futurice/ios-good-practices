@@ -558,7 +558,7 @@ When validating in-app purchase receipts, remember to perform the following chec
 - __Authenticity:__ That the receipt comes from Apple
 - __Integrity:__ That the receipt has not been tampered with
 - __App match:__ That the app bundle ID in the receipt matches your app’s bundle identifier
-- __Product match:__ That the product ID in the receipt matches the your expected product identifier
+- __Product match:__ That the product ID in the receipt matches your expected product identifier
 - __Freshness:__ That you haven’t seen the same receipt ID before.
 
 Whenever possible, design your IAP system to store the content for sale server-side, and provide it to the client only in exchange for a valid receipt that passes all of the above checks. This kind of a design thwarts common piracy mechanisms, and — since the validation is performed on the server — allows you to use Apple’s HTTP receipt validation service instead of interpreting the receipt `PKCS #7` / `ASN.1` format yourself.

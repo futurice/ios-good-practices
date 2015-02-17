@@ -551,6 +551,23 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 
 [itunes-connect]: https://itunesconnect.apple.com
 
+## In-App Purchases (IAP)
+
+When validating in-app purchase receipts, remember to perform the following checks:
+
+- __Authenticity:__ That the receipt comes from Apple
+- __Integrity:__ That the receipt has not been tampered with
+- __App match:__ That the app bundle ID in the receipt matches your app’s bundle identifier
+- __Product match:__ That the product ID in the receipt matches the your expected product identifier
+- __Freshness:__ That you haven’t seen the same receipt ID before.
+
+Whenever possible, design your IAP system to store the content for sale server-side, and provide it to the client only in exchange for a valid receipt that passes all of the above checks. This kind of a design thwarts common piracy mechanisms, and — since the validation is performed on the server — allows you to use Apple’s HTTP receipt validation service instead of interpreting the receipt `PKCS #7` / `ASN.1` format yourself.
+
+For more information on this topic, check out the [Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap].
+
+[futu-blog-iap]: http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app
+
+
 ## More Ideas
 
 - 3x assets, iPhone 6 screen sizes explained

@@ -478,7 +478,7 @@ Sensitive data such as username/password, personal user details, OAuth token etc
 * Use TextFields with Secure Option and disable Autocorrection 
 * Clear the pasteboard once the app enters in background
 * UIWebView: set cache policy to ignore local as its stored in the bundle
-* NSLog disable it for release
+* Disable NSLog for the release builds
 * Use [obfuscation technique](https://github.com/UrbanApps/UAObfuscatedString) for runtime protection 
 * Analysis open source dependency before integrating 
 

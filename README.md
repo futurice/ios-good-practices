@@ -146,12 +146,15 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 
 ### AFNetworking
 
-A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+
+[afnetworking-github]: https://github.com/AFNetworking/AFNetworking
 
 ### DateTools
-As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
+[datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.

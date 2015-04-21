@@ -12,6 +12,22 @@ Interested in other mobile platforms? Our [Best Practices in Android Development
 
 Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are widely used elsewhere, the platform has its own names for almost everything, and it's a bumpy road for your code to actually make it onto a physical device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
 
+## Contents
+
+If you are looking for something specific, you can jump right into the relevant section from here.
+
+1. [Getting Started](#getting-started)
+1. [Common Libraries](#common-libraries)
+1. [Architecture](#architecture)
+1. [Networking](#networking)
+1. [Assets](#assets)
+1. [Coding Style](#coding-style)
+1. [Diagnostics](#diagnostics)
+1. [Analytics](#analytics)
+1. [Building](#building)
+1. [Deployment](#deployment)
+1. [In-App Purchases (IAP)](#in-app-purchases-iap)
+
 ## Getting Started
 
 ### Xcode
@@ -413,7 +429,7 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 ### Debugging
 
-When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_. 
+When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
 
 For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
 

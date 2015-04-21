@@ -12,6 +12,22 @@ Interested in other mobile platforms? Our [Best Practices in Android Development
 
 Getting on board with iOS can be intimidating. Neither Swift nor Objective-C are widely used elsewhere, the platform has its own names for almost everything, and it's a bumpy road for your code to actually make it onto a physical device. This living document is here to help you, whether you're taking your first steps in Cocoaland or you're curious about doing things "the right way". Everything below is just suggestions, so if you have a good reason to do something differently, by all means go for it!
 
+## Contents
+
+If you are looking for something specific, you can jump right into the relevant section from here.
+
+1. [Getting Started](#getting-started)
+1. [Common Libraries](#common-libraries)
+1. [Architecture](#architecture)
+1. [Networking](#networking)
+1. [Assets](#assets)
+1. [Coding Style](#coding-style)
+1. [Diagnostics](#diagnostics)
+1. [Analytics](#analytics)
+1. [Building](#building)
+1. [Deployment](#deployment)
+1. [In-App Purchases (IAP)](#in-app-purchases-iap)
+
 ## Getting Started
 
 ### Xcode
@@ -130,12 +146,15 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 
 ### AFNetworking
 
-A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+
+[afnetworking-github]: https://github.com/AFNetworking/AFNetworking
 
 ### DateTools
-As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
+[datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
@@ -413,7 +432,7 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 ### Debugging
 
-When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_. 
+When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
 
 For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
 
@@ -525,13 +544,14 @@ Whenever you want to run software on an actual device (as opposed to the simulat
 
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
-* __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
+* __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app or use a wildcard App ID (*). The latter is [discouraged][jared-sinclair-signing-tips], because Xcode is notoriously bad at picking the correct files for signing unless guided in the right direction. Also, certain capabilities like Push Notifications or App Groups require an explicit App ID.
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
     * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight][testflight] service. Supertop offers a good [summary of its advantages and issues][testflight-discussion].
     * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
     * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
 
+[jared-sinclair-signing-tips]: http://blog.jaredsinclair.com/post/116436789850/
 [testflight]: https://developer.apple.com/testflight/
 [testflight-discussion]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
 

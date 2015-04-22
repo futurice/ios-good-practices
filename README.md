@@ -27,6 +27,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Building](#building)
 1. [Deployment](#deployment)
 1. [In-App Purchases (IAP)](#in-app-purchases-iap)
+1. [License](#license)
 
 ## Getting Started
 
@@ -586,6 +587,12 @@ Whenever possible, design your IAP system to store the content for sale server-s
 For more information on this topic, check out the [Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap].
 
 [futu-blog-iap]: http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app
+
+## License
+
+[Futurice][futurice] • Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+[futurice]: http://www.futurice.com
 
 
 ## More Ideas

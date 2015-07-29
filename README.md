@@ -447,6 +447,8 @@ Xcode comes with a profiling suite called Instruments. It contains a myriad of t
 
 Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
 
+Pay extra attention to how and where you create expensive classes. `NSDateFormatter`, for instance, is very expensive to create and doing so in rapid succession, e.g. inside a `tableView:cellForRowAtIndexPath:` method, can really slow down your app. Instead, keep a static instance of it around for each date format that you need.
+
 [ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
 ## Analytics

@@ -62,10 +62,10 @@ A common question when beginning an iOS project is whether to write all views in
 
 ### Ignores
 
-A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Objective-C][objc-gitignore] and [Swift][swift-gitignore].
+A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Swift][swift-gitignore] and [Objective-C][objc-gitignore].
 
-[objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 [swift-gitignore]: https://github.com/github/gitignore/blob/master/Swift.gitignore
+[objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
 ### CocoaPods
 
@@ -384,14 +384,14 @@ The most important point is to keep these consistent across your project's class
 
 ### External Style Guides
 
-Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the Objective-C style guides of other development shops, even if some bits can be quite company-specific or opinionated:
+Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the style guides of other software companies, even if some bits can be quite company-specific or opinionated.
 
-* [GitHub](https://github.com/github/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [The New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
+* GitHub: [Swift](https://github.com/github/swift-style-guide) and [Objective-C](https://github.com/github/objective-c-style-guide)
+* Ray Wenderlich: [Swift](https://github.com/raywenderlich/swift-style-guide) and [Objective-C](https://github.com/raywenderlich/objective-c-style-guide)
+* Google: [Objective-C](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* The New York Times: [Objective-C](https://github.com/NYTimes/objective-c-style-guide)
+* Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
+* Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
 
 ## Diagnostics
 

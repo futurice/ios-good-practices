@@ -324,60 +324,55 @@ It pays off to keep these two as separated as possible, i.e. not perform side ef
 
 ### Structure
 
-[Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
+`MARK:` comments are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
 
-```objective-c
+```swift
 
-#import "SomeModel.h"
-#import "SomeView.h"
-#import "SomeController.h"
-#import "SomeStore.h"
-#import "SomeHelper.h"
-#import <SomeExternalLibrary/SomeExternalLibraryHeader.h>
+import SomeExternalFramework
 
-static NSString * const XYZFooStringConstant = @"FoobarConstant";
-static CGFloat const XYZFooFloatConstant = 1234.5;
+class FooViewController : UIViewController, FoobarDelegate {
 
-@interface XYZFooViewController () <XYZBarDelegate>
+    let foo: Foo
 
-@property (nonatomic, copy, readonly) Foo *foo;
+    private let fooStringConstant = "FooConstant"
+    private let floatConstant = 1234.5
 
-@end
+    // MARK: Lifecycle
 
-@implementation XYZFooViewController
+    // Custom initializers go here
 
-#pragma mark - Lifecycle
+    // MARK: View Lifecycle
 
-- (instancetype)initWithFoo:(Foo *)foo;
-- (void)dealloc;
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // …
+    }
 
-#pragma mark - View Lifecycle
+    // MARK: Layout
 
-- (void)viewDidLoad;
-- (void)viewWillAppear:(BOOL)animated;
+    private func makeViewConstraints() {
+        // …
+    }
 
-#pragma mark - Layout
+    // MARK: User Interaction
 
-- (void)makeViewConstraints;
+    func foobarButtonTapped() {
+        // …
+    }
 
-#pragma mark - Public Interface
+    // MARK: FoobarDelegate
 
-- (void)startFooing;
-- (void)stopFooing;
+    func foobar(foobar: Foobar didSomethingWithFoo foo: Foo) {
+        // …
+    }
 
-#pragma mark - User Interaction
+    // MARK: Private Helpers
 
-- (void)foobarButtonTapped;
+    private func displayNameForFoo(foo: Foo) {
+        // …
+    }
 
-#pragma mark - XYZFoobarDelegate
-
-- (void)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;
-
-#pragma mark - Internal Helpers
-
-- (NSString *)displayNameForFoo:(Foo *)foo;
-
-@end
+}
 ```
 
 The most important point is to keep these consistent across your project's classes.

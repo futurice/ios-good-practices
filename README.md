@@ -468,19 +468,18 @@ Including some analytics framework in your app is strongly recommended, as it al
 
 [google-tag-manager]: http://www.google.com/tagmanager/
 
-A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
+A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that handles the translation from app-internal models and data formats (`FooModel`, `NSTimeInterval`, …) to the mostly string-based data layer:
 
-```objective-c
+```swift
 
-- (void)pushAddItemEventWithItem:(XYZItem *)item editMode:(XYZEditMode)editMode
-{
-    NSString *editModeString = [self nameForEditMode:editMode];
+func pushAddItemEventWithItem(item: Item, editMode: EditMode) {
+    let editModeString = nameForEditMode(editMode)
 
-    [self pushToDataLayer:@{
-        @"event": "addItem",
-        @"itemIdentifier": item.identifier,
-        @"editMode": editModeString
-    }];
+    pushToDataLayer([
+        "event": "addItem",
+        "itemIdentifier": item.identifier,
+        "editMode": editModeString
+    ])
 }
 
 ```

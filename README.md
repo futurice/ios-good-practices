@@ -121,7 +121,23 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep app-wide constants in a `Constants.h` file that is included in the prefix header.
+In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
+
+```swift
+
+struct Config {
+    static let baseURL: NSURL(string: "http://www.example.org/")!
+    static let splineReticulatorName = "foobar"
+}
+
+struct Color {
+    static let primaryColor = UIColor(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
+    static let secondaryColor = UIColor.lightGrayColor()
+}
+
+```
+
+When using Objective-C, keep app-wide constants in a `Constants.h` file that is included in the prefix header.
 
 Instead of preprocessor macro definitions (via `#define`), use actual constants:
 

@@ -220,20 +220,29 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 When laying out your views using Auto Layout, be sure to add the following to your class:
 
-    + (BOOL)requiresConstraintBasedLayout
-    {
-        return YES;
-    }
+```swift
 
-Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to.
+override class func requiresConstraintBasedLayout() -> Bool {
+    return true
+}
+
+```
+
+Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
+
+[edward-huynh-requiresconstraintbasedlayout]: http://www.edwardhuynh.com/blog/2013/11/24/the-mystery-of-the-requiresconstraintbasedlayout/
 
 ### Controllers
 
 Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. The latter is okay only if the state _really_ is global.
 
-```objective-c
-+ [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
+```swift
+let fooViewController = FooViewController(viewModel: fooViewModel)
 ```
+
+Try to avoid bloating your view controllers with logic that can safely reside in other places. Soroush Khanlou has a [good writeup][khanlou-destroy-massive-vc] of how to achieve this, and architectures like [MVVM](#architecture) treat view controllers as views, thereby greatly reducing their complexity.
+
+[khanlou-destroy-massive-vc]: http://khanlou.com/2014/09/8-patterns-to-help-you-destroy-massive-view-controller/
 
 ## Networking
 

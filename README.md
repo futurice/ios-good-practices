@@ -244,60 +244,25 @@ Try to avoid bloating your view controllers with logic that can safely reside in
 
 [khanlou-destroy-massive-vc]: http://khanlou.com/2014/09/8-patterns-to-help-you-destroy-massive-view-controller/
 
-## Networking
+## Stores
 
-### Traditional way: Use custom callback blocks
+At the "ground level" of a mobile app is usually some kind of model storage, that keeps its data in places such as on disk, in a local database, or on a remote server. This layer is also useful to abstract away any activities related to the vending of model objects, such as caching.
 
-```objective-c
-// GigStore.h
+Whether it means kicking off a backend request or deserializing a large file from disk, fetching data is often asynchronous in nature. Your store's API should reflect this by offering some kind of deferral mechanism, as synchronously returning the data would cause the rest of your app to stall.
 
-typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
+If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
-- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlock)completion
+```swift
 
+func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
+    // …
+}
 
-// GigsViewController.m
-
-[[GigStore sharedStore] fetchGigsForArtist:artist completion:^(NSArray *gigs, NSError *error) {
-    if (!error) {
-        // Do something with gigs
-    }
-    else {
-        // :(
-    }
-];
 ```
 
-This works, but can quickly lead to callback hell if you need to chain multiple requests.
+Here, the returned `SignalProducer` is merely a "recipe" for getting a list of gigs. Only when started by the subscriber, e.g. a view model, will it perform the actual work of fetching the gigs. Unsubscribing before the data has arrived would then cancel the network request.
 
-### Reactive way: Use RAC signals
-
-If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)][reactivecocoa-github]. It's a versatile and multi-purpose library that can change the way people write [entire apps][groceryList-github], but you can also use it sparingly where it fits the task.
-
-There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax][teehan-lax-rac] and [NSHipster][nshipster-rac].
-
-[grocerylist-github]: https://github.com/jspahrsummers/GroceryList
-[teehan-lax-rac]: http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/
-[nshipster-rac]: http://nshipster.com/reactivecocoa/
-
-```objective-c
-// GigStore.h
-
-- (RACSignal *)gigsForArtist:(Artist *)artist;
-
-
-// GigsViewController.m
-
-[[GigStore sharedStore] gigsForArtist:artist]
-    subscribeNext:^(NSArray *gigs) {
-        // Do something with gigs
-    } error:^(NSError *error) {
-        // :(
-    }
-];
-```
-
-This allows us to transform or filter gigs before showing them, by combining the gig signal with other signals.
+If you don't want to use signals, futures or similar mechanisms to represent your future data, you can also use a regular callback block. Keep in mind that chaining or nesting such blocks, e.g. in the case where one network request depends on the outcome of another, can quickly become very unwieldy – a condition generally known as "callback hell".
 
 ## Assets
 

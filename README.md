@@ -306,19 +306,7 @@ This allows us to transform or filter gigs before showing them, by combining the
 
 ### Using Bitmap Images
 
-Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. However, some discipline when naming assets can make life easier:
-
-```objective-c
-IconCheckmarkHighlighted.png // Universal, non-Retina
-IconCheckmarkHighlighted@2x.png // Universal, Retina
-IconCheckmarkHighlighted~iphone.png // iPhone, non-Retina
-IconCheckmarkHighlighted@2x~iphone.png // iPhone, Retina
-IconCheckmarkHighlighted-568h@2x~iphone.png // iPhone, Retina, 4-inch
-IconCheckmarkHighlighted~ipad.png // iPad, non-Retina
-IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
-```
-
-The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
+Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. Appending the modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
 
 ### Using Vector Images
 
@@ -617,7 +605,6 @@ For more information on this topic, check out the [Futurice blog: Validating in-
 
 ## More Ideas
 
-- 3x assets, iPhone 6 screen sizes explained
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine
 - Add section on Testing

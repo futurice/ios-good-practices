@@ -68,7 +68,9 @@ A good first step when putting a project under version control is to have a dece
 [swift-gitignore]: https://github.com/github/gitignore/blob/master/Swift.gitignore
 [objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
-### CocoaPods
+### Dependency Management
+
+#### CocoaPods
 
 If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods][cocoapods] offers easy and fast integration. Install it like so:
 
@@ -93,6 +95,18 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 [cocoapods]: http://www.cocoapods.org
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
+
+#### Carthage
+
+[Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
+
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
+
+To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
+
+[carthage]: https://github.com/Carthage/Carthage
+[simple-made-easy]: http://www.infoq.com/presentations/Simple-Made-Easy
+[carthage-instructions]: https://github.com/Carthage/Carthage#if-youre-building-for-ios
 
 ### Project Structure
 

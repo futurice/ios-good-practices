@@ -464,7 +464,7 @@ Recommendations:
 
 ### [Faux Pas](http://fauxpasapp.com/)
 
-Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Swift support is coming later, but it also has plenty of language-agnostic rules. Be sure to run this tool before shipping any iOS (or Mac) app!
+Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. There is no Swift support yet, but the tool also offers plenty of language-agnostic rules. Be sure to run it before shipping any iOS (or Mac) app!
 
 _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 

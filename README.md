@@ -232,14 +232,20 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
-When laying out your views using Auto Layout, be sure to add the following to your class:
+When laying out your views using Auto Layout, be sure to override the method below in your custom view classes.
 
+Swift:
 ```swift
-
 override class func requiresConstraintBasedLayout() -> Bool {
     return true
 }
+```
 
+Objective-C:
+```objective-c
++ (BOOL)requiresConstraintBasedLayout {
+    return YES
+}
 ```
 
 Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
@@ -250,8 +256,14 @@ Otherwise you may encounter strange bugs when the system doesn't call `-updateCo
 
 Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. The latter is okay only if the state _really_ is global.
 
+Swift:
 ```swift
 let fooViewController = FooViewController(viewModel: fooViewModel)
+```
+
+Objective-C:
+```objective-c
+FooViewController *fooViewController = [[FooViewController alloc] initWithViewModel:fooViewModel];
 ```
 
 Try to avoid bloating your view controllers with logic that can safely reside in other places. Soroush Khanlou has a [good writeup][khanlou-destroy-massive-vc] of how to achieve this, and architectures like [MVVM](#architecture) treat view controllers as views, thereby greatly reducing their complexity.
@@ -266,12 +278,18 @@ Whether it means kicking off a backend request or deserializing a large file fro
 
 If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
+Swift + RAC 3:
 ```swift
-
 func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
     // …
 }
+```
 
+ObjectiveC + RAC 2:
+```objective-c
+- (RACSignal *)fetchGigsForArtist:(Artist *)artist {
+    // …
+}
 ```
 
 Here, the returned `SignalProducer` is merely a "recipe" for getting a list of gigs. Only when started by the subscriber, e.g. a view model, will it perform the actual work of fetching the gigs. Unsubscribing before the data has arrived would then cancel the network request.

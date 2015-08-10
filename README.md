@@ -114,7 +114,7 @@ To keep all those hundreds of source files ending up in the same directory, it's
 
     ├─ Models
     ├─ Views
-    ├─ Controllers
+    ├─ Controllers (or ViewModels, if your architecture is MVVM)
     ├─ Stores
     ├─ Helpers
 

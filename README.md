@@ -22,6 +22,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Networking](#networking)
 1. [Assets](#assets)
 1. [Coding Style](#coding-style)
+1. [Security](#security)
 1. [Diagnostics](#diagnostics)
 1. [Analytics](#analytics)
 1. [Building](#building)
@@ -400,6 +401,40 @@ Futurice does not have company-level guidelines for coding style. It can however
 * Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
 * Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
 
+## Security
+
+Even in an age where we trust our portable devices with the most private data, app security remains an often-overlooked subject. Try to find a good trade-off given the nature of your data; following just a few simple rules can go a long way here. A good resource to get started is Apple's own [iOS Security Guide][apple-security-guide].
+
+### Data Storage
+
+If your app needs to store sensitive data, such as a username and password, an authentication token or some personal user details, you need to keep these in a location where they cannot be accessed from outside the app. Never use `NSUserDefaults`, other plist files on disk or Core Data for this, as they are not encrypted! In most such cases, the iOS Keychain is your friend. If you're uncomfortable working with the C APIs directly, you can use a wrapper library such as [SSKeychain][sskeychain] or [UICKeyChainStore][uickeychainstore].
+
+When storing files and passwords, be sure to set the correct protection level, and choose it conservatively. If you need access while the device is locked (e.g. for background tasks), use the "accessible after first unlock" variety. In other cases, you should probably require that the device is unlocked to access the data. Only keep sensitive data around while you need it.
+
+### Networking
+
+Keep any HTTP traffic to remote servers encrypted with SSL at all times. To avoid man-in-the-middle attacks that intercept your encrypted traffic, you can set up [certificate pinning][certificate-pinning]. Popular networking libraries such as [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] support this out of the box.
+
+### Logging
+
+Make sure to disable any logging for release builds, as internal state of your app can easily leak to the public, including passwords, API tokens and the like.
+
+### User Interface
+
+When using `UITextField`s for password entry, remember to set their `secureTextEntry` property to `true` to avoid showing the password in cleartext. You should also disable auto-correction for the password field, and clear the field whenever appropriate, such as when your app enters the background.
+
+When this happens, it's also good practice to clear the Pasteboard to avoid passwords and other sensitive data from leaking. As iOS may take screenshots of your app for display in the app switcher, make sure to clear any sensitive data from the UI _before_ returning from `applicationDidEnterBackground`.
+
+### External Libraries
+
+Be extra careful when integrating third-party code into your app. Even if you made sure to stick to the above guidelines, other developers may not have done so. If you detect a vulnerability, be a good citizen and let them know about it as soon as possible.
+
+[apple-security-guide]: https://www.apple.com/business/docs/iOS_Security_Guide.pdf
+[sskeychain]: https://github.com/soffes/sskeychain
+[uickeychainstore]: https://github.com/kishikawakatsumi/UICKeyChainStore
+[certificate-pinning]: https://possiblemobile.com/2013/03/ssl-pinning-for-increased-app-security/
+[alamofire-github]: https://github.com/Alamofire/Alamofire
+
 ## Diagnostics
 
 ### Compiler warnings
@@ -494,25 +529,6 @@ First you should make your app send crash logs onto a server somewhere so that y
 [plcrashreporter]: https://www.plcrashreporter.org
 
 Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
-
-### Security
-Sensitive data such as username/password, personal user details, OAuth token etc should always be kept securely in a private location where it not accessible outside of the application. See [Apple security documentation](https://www.apple.com/business/docs/iOS_Security_Guide.pdf) for full brief on how iOS handle this area. 
-
-##### Do's 
-* Store sensitive data in Keychain. if your uncomfortable implementing Keychain library use a wrapper like [UICKeyChainStore](https://github.com/kishikawakatsumi/UICKeyChainStore)
-* Treat untrusted files and data with care, always use NSFileProtectionComplete
-* Remove personal data from memory when it not needed (i.e. self.password = nil;)
-* Protect data in transit (https over ssl)
-* Use TextFields with Secure Option and disable Autocorrection 
-* Clear the pasteboard once the app enters in background
-* UIWebView: set cache policy to ignore local as its stored in the bundle
-* Disable NSLog for the release builds
-* Analysis open source dependency before integrating 
-
-##### Don'ts
-* Do not store sensitive data you don't actually need, or for longer than you need.
-* Never store sensitive data in NSUserDefault, plist or CoreData. it mostly used to basic app feature like is first launch etc…
-* Never store sensitive data in user document directory
 
 ## Building
 

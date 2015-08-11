@@ -136,7 +136,7 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
+Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
 
 ```swift
 

@@ -416,17 +416,13 @@ Keep any HTTP traffic to remote servers encrypted with TLS at all times. To avoi
 
 ### Logging
 
-Make sure to disable any logging for release builds, as internal state of your app can easily leak to the public, including passwords, API tokens and the like.
+Take extra care to set up proper log levels before releasing your app. Production builds should never log out passwords, API tokens and the like, as this can easily cause them to leak to the public. On the other hand, logging the basic control flow can help you pinpoint issues that your users are experiencing.
 
 ### User Interface
 
 When using `UITextField`s for password entry, remember to set their `secureTextEntry` property to `true` to avoid showing the password in cleartext. You should also disable auto-correction for the password field, and clear the field whenever appropriate, such as when your app enters the background.
 
 When this happens, it's also good practice to clear the Pasteboard to avoid passwords and other sensitive data from leaking. As iOS may take screenshots of your app for display in the app switcher, make sure to clear any sensitive data from the UI _before_ returning from `applicationDidEnterBackground`.
-
-### External Libraries
-
-Be extra careful when integrating third-party code into your app. Even if you made sure to stick to the above guidelines, other developers may not have done so. If you detect a vulnerability, be a good citizen and let them know about it as soon as possible.
 
 [apple-security-guide]: https://www.apple.com/business/docs/iOS_Security_Guide.pdf
 [sskeychain]: https://github.com/soffes/sskeychain

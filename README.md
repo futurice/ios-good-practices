@@ -416,7 +416,7 @@ Keep any HTTP traffic to remote servers encrypted with TLS at all times. To avoi
 
 ### Logging
 
-Take extra care to set up proper log levels before releasing your app. Production builds should never log out passwords, API tokens and the like, as this can easily cause them to leak to the public. On the other hand, logging the basic control flow can help you pinpoint issues that your users are experiencing.
+Take extra care to set up proper log levels before releasing your app. Production builds should never log passwords, API tokens and the like, as this can easily cause them to leak to the public. On the other hand, logging the basic control flow can help you pinpoint issues that your users are experiencing.
 
 ### User Interface
 

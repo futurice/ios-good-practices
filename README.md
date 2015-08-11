@@ -334,7 +334,7 @@ It pays off to keep these two as separated as possible, i.e. not perform side ef
 
 ### Structure
 
-`MARK:` comments are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
+`MARK:` comments (Swift) and [pragma marks][nshipster-pragma-marks] (Objective-C) are a great way to group your methods, especially in view controllers. Here is a Swift example for a common structure that works with almost any view controller:
 
 ```swift
 
@@ -376,7 +376,7 @@ class FooViewController : UIViewController, FoobarDelegate {
         // …
     }
 
-    // MARK: Private Helpers
+    // MARK: Additional Helpers
 
     private func displayNameForFoo(foo: Foo) {
         // …
@@ -386,6 +386,8 @@ class FooViewController : UIViewController, FoobarDelegate {
 ```
 
 The most important point is to keep these consistent across your project's classes.
+
+[nshipster-pragma-marks]: http://nshipster.com/pragma/
 
 ### External Style Guides
 

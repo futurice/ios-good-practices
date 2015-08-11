@@ -232,7 +232,7 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
-When laying out your views using Auto Layout, be sure to override the method below in your custom view classes.
+When using Auto Layout in a custom view, it's usually enough to set up your constraints once at initialization. However, if you need to update them later during the view's lifecycle, be sure to override the below method!
 
 Swift:
 ```swift

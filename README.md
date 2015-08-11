@@ -22,6 +22,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Networking](#networking)
 1. [Assets](#assets)
 1. [Coding Style](#coding-style)
+1. [Security](#security)
 1. [Diagnostics](#diagnostics)
 1. [Analytics](#analytics)
 1. [Building](#building)
@@ -62,12 +63,14 @@ A common question when beginning an iOS project is whether to write all views in
 
 ### Ignores
 
-A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Objective-C][objc-gitignore] and [Swift][swift-gitignore].
+A good first step when putting a project under version control is to have a decent `.gitignore` file. That way, unwanted files (user settings, temporary files, etc.) will never even make it into your repository. Luckily, GitHub has us covered for both [Swift][swift-gitignore] and [Objective-C][objc-gitignore].
 
-[objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 [swift-gitignore]: https://github.com/github/gitignore/blob/master/Swift.gitignore
+[objc-gitignore]: https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
-### CocoaPods
+### Dependency Management
+
+#### CocoaPods
 
 If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods][cocoapods] offers easy and fast integration. Install it like so:
 
@@ -93,13 +96,25 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
 
+#### Carthage
+
+[Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
+
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
+
+To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
+
+[carthage]: https://github.com/Carthage/Carthage
+[simple-made-easy]: http://www.infoq.com/presentations/Simple-Made-Easy
+[carthage-instructions]: https://github.com/Carthage/Carthage#if-youre-building-for-ios
+
 ### Project Structure
 
 To keep all those hundreds of source files ending up in the same directory, it's a good idea to set up some folder structure depending on your architecture. For instance, you can use the following:
 
     ├─ Models
     ├─ Views
-    ├─ Controllers
+    ├─ Controllers (or ViewModels, if your architecture is MVVM)
     ├─ Stores
     ├─ Helpers
 
@@ -121,7 +136,23 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep app-wide constants in a `Constants.h` file that is included in the prefix header.
+Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
+
+```swift
+
+struct Config {
+    static let baseURL: NSURL(string: "http://www.example.org/")!
+    static let splineReticulatorName = "foobar"
+}
+
+struct Color {
+    static let primaryColor = UIColor(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
+    static let secondaryColor = UIColor.lightGrayColor()
+}
+
+```
+
+When using Objective-C, keep app-wide constants in a `Constants.h` file that is included in the prefix header.
 
 Instead of preprocessor macro definitions (via `#define`), use actual constants:
 
@@ -174,14 +205,13 @@ If you prefer to write your views in code, chances are you've met either of Appl
     * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
 * [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
-    * Quite new concept for Cocoa developers, but [gaining][cocoasamurai-rac] [traction][raywenderlich-mvvm]
+    * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm]
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
 
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
 [mvvm]: http://www.objc.io/issue-13/mvvm.html
-[cocoasamurai-rac]: http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html
-[raywenderlich-mvvm]: http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1
+[sprynthesis-mvvm]: http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/
 [viper]: http://www.objc.io/issue-13/viper.html
 
 ### “Event” Patterns
@@ -202,77 +232,69 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
-When laying out your views using Auto Layout, be sure to add the following to your class:
+When using Auto Layout in a custom view, it's usually enough to set up your constraints once at initialization. However, if you need to update them later during the view's lifecycle, be sure to override the below method!
 
-    + (BOOL)requiresConstraintBasedLayout
-    {
-        return YES;
-    }
+Swift:
+```swift
+override class func requiresConstraintBasedLayout() -> Bool {
+    return true
+}
+```
 
-Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to.
+Objective-C:
+```objective-c
++ (BOOL)requiresConstraintBasedLayout {
+    return YES
+}
+```
+
+Otherwise you may encounter strange bugs when the system doesn't call `updateConstraints()` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
+
+[edward-huynh-requiresconstraintbasedlayout]: http://www.edwardhuynh.com/blog/2013/11/24/the-mystery-of-the-requiresconstraintbasedlayout/
 
 ### Controllers
 
 Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. The latter is okay only if the state _really_ is global.
 
-```objective-c
-+ [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
+Swift:
+```swift
+let fooViewController = FooViewController(viewModel: fooViewModel)
 ```
 
-## Networking
-
-### Traditional way: Use custom callback blocks
-
+Objective-C:
 ```objective-c
-// GigStore.h
-
-typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
-
-- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlock)completion
-
-
-// GigsViewController.m
-
-[[GigStore sharedStore] fetchGigsForArtist:artist completion:^(NSArray *gigs, NSError *error) {
-    if (!error) {
-        // Do something with gigs
-    }
-    else {
-        // :(
-    }
-];
+FooViewController *fooViewController = [[FooViewController alloc] initWithViewModel:fooViewModel];
 ```
 
-This works, but can quickly lead to callback hell if you need to chain multiple requests.
+Try to avoid bloating your view controllers with logic that can safely reside in other places. Soroush Khanlou has a [good writeup][khanlou-destroy-massive-vc] of how to achieve this, and architectures like [MVVM](#architecture) treat view controllers as views, thereby greatly reducing their complexity.
 
-### Reactive way: Use RAC signals
+[khanlou-destroy-massive-vc]: http://khanlou.com/2014/09/8-patterns-to-help-you-destroy-massive-view-controller/
 
-If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)][reactivecocoa-github]. It's a versatile and multi-purpose library that can change the way people write [entire apps][groceryList-github], but you can also use it sparingly where it fits the task.
+## Stores
 
-There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax][teehan-lax-rac] and [NSHipster][nshipster-rac].
+At the "ground level" of a mobile app is usually some kind of model storage, that keeps its data in places such as on disk, in a local database, or on a remote server. This layer is also useful to abstract away any activities related to the vending of model objects, such as caching.
 
-[grocerylist-github]: https://github.com/jspahrsummers/GroceryList
-[teehan-lax-rac]: http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/
-[nshipster-rac]: http://nshipster.com/reactivecocoa/
+Whether it means kicking off a backend request or deserializing a large file from disk, fetching data is often asynchronous in nature. Your store's API should reflect this by offering some kind of deferral mechanism, as synchronously returning the data would cause the rest of your app to stall.
 
-```objective-c
-// GigStore.h
+If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
-- (RACSignal *)gigsForArtist:(Artist *)artist;
-
-
-// GigsViewController.m
-
-[[GigStore sharedStore] gigsForArtist:artist]
-    subscribeNext:^(NSArray *gigs) {
-        // Do something with gigs
-    } error:^(NSError *error) {
-        // :(
-    }
-];
+Swift + RAC 3:
+```swift
+func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
+    // …
+}
 ```
 
-This allows us to transform or filter gigs before showing them, by combining the gig signal with other signals.
+ObjectiveC + RAC 2:
+```objective-c
+- (RACSignal *)fetchGigsForArtist:(Artist *)artist {
+    // …
+}
+```
+
+Here, the returned `SignalProducer` is merely a "recipe" for getting a list of gigs. Only when started by the subscriber, e.g. a view model, will it perform the actual work of fetching the gigs. Unsubscribing before the data has arrived would then cancel the network request.
+
+If you don't want to use signals, futures or similar mechanisms to represent your future data, you can also use a regular callback block. Keep in mind that chaining or nesting such blocks, e.g. in the case where one network request depends on the outcome of another, can quickly become very unwieldy – a condition generally known as "callback hell".
 
 ## Assets
 
@@ -282,19 +304,7 @@ This allows us to transform or filter gigs before showing them, by combining the
 
 ### Using Bitmap Images
 
-Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. However, some discipline when naming assets can make life easier:
-
-```objective-c
-IconCheckmarkHighlighted.png // Universal, non-Retina
-IconCheckmarkHighlighted@2x.png // Universal, Retina
-IconCheckmarkHighlighted~iphone.png // iPhone, non-Retina
-IconCheckmarkHighlighted@2x~iphone.png // iPhone, Retina
-IconCheckmarkHighlighted-568h@2x~iphone.png // iPhone, Retina, 4-inch
-IconCheckmarkHighlighted~ipad.png // iPad, non-Retina
-IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
-```
-
-The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
+Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. Appending the modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
 
 ### Using Vector Images
 
@@ -324,74 +334,101 @@ It pays off to keep these two as separated as possible, i.e. not perform side ef
 
 ### Structure
 
-[Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
+`MARK:` comments (Swift) and [pragma marks][nshipster-pragma-marks] (Objective-C) are a great way to group your methods, especially in view controllers. Here is a Swift example for a common structure that works with almost any view controller:
 
-```objective-c
+```swift
 
-#import "SomeModel.h"
-#import "SomeView.h"
-#import "SomeController.h"
-#import "SomeStore.h"
-#import "SomeHelper.h"
-#import <SomeExternalLibrary/SomeExternalLibraryHeader.h>
+import SomeExternalFramework
 
-static NSString * const XYZFooStringConstant = @"FoobarConstant";
-static CGFloat const XYZFooFloatConstant = 1234.5;
+class FooViewController : UIViewController, FoobarDelegate {
 
-@interface XYZFooViewController () <XYZBarDelegate>
+    let foo: Foo
 
-@property (nonatomic, copy, readonly) Foo *foo;
+    private let fooStringConstant = "FooConstant"
+    private let floatConstant = 1234.5
 
-@end
+    // MARK: Lifecycle
 
-@implementation XYZFooViewController
+    // Custom initializers go here
 
-#pragma mark - Lifecycle
+    // MARK: View Lifecycle
 
-- (instancetype)initWithFoo:(Foo *)foo;
-- (void)dealloc;
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // …
+    }
 
-#pragma mark - View Lifecycle
+    // MARK: Layout
 
-- (void)viewDidLoad;
-- (void)viewWillAppear:(BOOL)animated;
+    private func makeViewConstraints() {
+        // …
+    }
 
-#pragma mark - Layout
+    // MARK: User Interaction
 
-- (void)makeViewConstraints;
+    func foobarButtonTapped() {
+        // …
+    }
 
-#pragma mark - Public Interface
+    // MARK: FoobarDelegate
 
-- (void)startFooing;
-- (void)stopFooing;
+    func foobar(foobar: Foobar didSomethingWithFoo foo: Foo) {
+        // …
+    }
 
-#pragma mark - User Interaction
+    // MARK: Additional Helpers
 
-- (void)foobarButtonTapped;
+    private func displayNameForFoo(foo: Foo) {
+        // …
+    }
 
-#pragma mark - XYZFoobarDelegate
-
-- (void)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;
-
-#pragma mark - Internal Helpers
-
-- (NSString *)displayNameForFoo:(Foo *)foo;
-
-@end
+}
 ```
 
 The most important point is to keep these consistent across your project's classes.
 
+[nshipster-pragma-marks]: http://nshipster.com/pragma/
+
 ### External Style Guides
 
-Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the Objective-C style guides of other development shops, even if some bits can be quite company-specific or opinionated:
+Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the style guides of other software companies, even if some bits can be quite company-specific or opinionated.
 
-* [GitHub](https://github.com/github/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [The New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
+* GitHub: [Swift](https://github.com/github/swift-style-guide) and [Objective-C](https://github.com/github/objective-c-style-guide)
+* Ray Wenderlich: [Swift](https://github.com/raywenderlich/swift-style-guide) and [Objective-C](https://github.com/raywenderlich/objective-c-style-guide)
+* Google: [Objective-C](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* The New York Times: [Objective-C](https://github.com/NYTimes/objective-c-style-guide)
+* Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
+* Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
+
+## Security
+
+Even in an age where we trust our portable devices with the most private data, app security remains an often-overlooked subject. Try to find a good trade-off given the nature of your data; following just a few simple rules can go a long way here. A good resource to get started is Apple's own [iOS Security Guide][apple-security-guide].
+
+### Data Storage
+
+If your app needs to store sensitive data, such as a username and password, an authentication token or some personal user details, you need to keep these in a location where they cannot be accessed from outside the app. Never use `NSUserDefaults`, other plist files on disk or Core Data for this, as they are not encrypted! In most such cases, the iOS Keychain is your friend. If you're uncomfortable working with the C APIs directly, you can use a wrapper library such as [SSKeychain][sskeychain] or [UICKeyChainStore][uickeychainstore].
+
+When storing files and passwords, be sure to set the correct protection level, and choose it conservatively. If you need access while the device is locked (e.g. for background tasks), use the "accessible after first unlock" variety. In other cases, you should probably require that the device is unlocked to access the data. Only keep sensitive data around while you need it.
+
+### Networking
+
+Keep any HTTP traffic to remote servers encrypted with TLS at all times. To avoid man-in-the-middle attacks that intercept your encrypted traffic, you can set up [certificate pinning][certificate-pinning]. Popular networking libraries such as [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] support this out of the box.
+
+### Logging
+
+Take extra care to set up proper log levels before releasing your app. Production builds should never log passwords, API tokens and the like, as this can easily cause them to leak to the public. On the other hand, logging the basic control flow can help you pinpoint issues that your users are experiencing.
+
+### User Interface
+
+When using `UITextField`s for password entry, remember to set their `secureTextEntry` property to `true` to avoid showing the password in cleartext. You should also disable auto-correction for the password field, and clear the field whenever appropriate, such as when your app enters the background.
+
+When this happens, it's also good practice to clear the Pasteboard to avoid passwords and other sensitive data from leaking. As iOS may take screenshots of your app for display in the app switcher, make sure to clear any sensitive data from the UI _before_ returning from `applicationDidEnterBackground`.
+
+[apple-security-guide]: https://www.apple.com/business/docs/iOS_Security_Guide.pdf
+[sskeychain]: https://github.com/soffes/sskeychain
+[uickeychainstore]: https://github.com/kishikawakatsumi/UICKeyChainStore
+[certificate-pinning]: https://possiblemobile.com/2013/03/ssl-pinning-for-increased-app-security/
+[alamofire-github]: https://github.com/Alamofire/Alamofire
 
 ## Diagnostics
 
@@ -425,7 +462,7 @@ Recommendations:
 
 ### [Faux Pas](http://fauxpasapp.com/)
 
-Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
+Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. There is no Swift support yet, but the tool also offers plenty of language-agnostic rules. Be sure to run it before shipping any iOS (or Mac) app!
 
 _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
@@ -447,6 +484,8 @@ Xcode comes with a profiling suite called Instruments. It contains a myriad of t
 
 Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
 
+Pay extra attention to how and where you create expensive classes. `NSDateFormatter`, for instance, is very expensive to create and doing so in rapid succession, e.g. inside a `tableView:cellForRowAtIndexPath:` method, can really slow down your app. Instead, keep a static instance of it around for each date format that you need.
+
 [ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
 ## Analytics
@@ -455,19 +494,18 @@ Including some analytics framework in your app is strongly recommended, as it al
 
 [google-tag-manager]: http://www.google.com/tagmanager/
 
-A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
+A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that handles the translation from app-internal models and data formats (`FooModel`, `NSTimeInterval`, …) to the mostly string-based data layer:
 
-```objective-c
+```swift
 
-- (void)pushAddItemEventWithItem:(XYZItem *)item editMode:(XYZEditMode)editMode
-{
-    NSString *editModeString = [self nameForEditMode:editMode];
+func pushAddItemEventWithItem(item: Item, editMode: EditMode) {
+    let editModeString = nameForEditMode(editMode)
 
-    [self pushToDataLayer:@{
-        @"event": "addItem",
-        @"itemIdentifier": item.identifier,
-        @"editMode": editModeString
-    }];
+    pushToDataLayer([
+        "event": "addItem",
+        "itemIdentifier": item.identifier,
+        "editMode": editModeString
+    ])
 }
 
 ```
@@ -486,25 +524,6 @@ First you should make your app send crash logs onto a server somewhere so that y
 [plcrashreporter]: https://www.plcrashreporter.org
 
 Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
-
-### Security
-Sensitive data such as username/password, personal user details, OAuth token etc should always be kept securely in a private location where it not accessible outside of the application. See [Apple security documentation](https://www.apple.com/business/docs/iOS_Security_Guide.pdf) for full brief on how iOS handle this area. 
-
-##### Do's 
-* Store sensitive data in Keychain. if your uncomfortable implementing Keychain library use a wrapper like [UICKeyChainStore](https://github.com/kishikawakatsumi/UICKeyChainStore)
-* Treat untrusted files and data with care, always use NSFileProtectionComplete
-* Remove personal data from memory when it not needed (i.e. self.password = nil;)
-* Protect data in transit (https over ssl)
-* Use TextFields with Secure Option and disable Autocorrection 
-* Clear the pasteboard once the app enters in background
-* UIWebView: set cache policy to ignore local as its stored in the bundle
-* Disable NSLog for the release builds
-* Analysis open source dependency before integrating 
-
-##### Don'ts
-* Do not store sensitive data you don't actually need, or for longer than you need.
-* Never store sensitive data in NSUserDefault, plist or CoreData. it mostly used to basic app feature like is first launch etc…
-* Never store sensitive data in user document directory
 
 ## Building
 
@@ -615,7 +634,6 @@ For more information on this topic, check out the [Futurice blog: Validating in-
 
 ## More Ideas
 
-- 3x assets, iPhone 6 screen sizes explained
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine
 - Add section on Testing

@@ -204,12 +204,12 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
-    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
+    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks.
 * [Model-View-ViewModel (MVVM)][mvvm]
-    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
-    * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm]
+    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
+    * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
-    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
+    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern.
 
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
 [mvvm]: http://www.objc.io/issue-13/mvvm.html
@@ -457,10 +457,10 @@ The analyzer can work in either “shallow” or “deep” mode. The latter is 
 
 Recommendations:
 
-- Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections)
+- Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections).
 - Enable the _“Analyze during ‘Build’”_ build setting for your release build configuration to have the analyzer run automatically during release builds. (Seriously, do this — you’re not going to remember to run it manually.)
-- Set the _“Mode of Analysis for ‘Analyze’”_ build setting to _Shallow (faster)_
-- Set the _“Mode of Analysis for ‘Build’”_ build setting to _Deep_
+- Set the _“Mode of Analysis for ‘Analyze’”_ build setting to _Shallow (faster)_.
+- Set the _“Mode of Analysis for ‘Build’”_ build setting to _Deep_.
 
 ### [Faux Pas](http://fauxpasapp.com/)
 
@@ -541,11 +541,11 @@ However, this is a bit too simple for real-world applications. You might – no,
 
 Typically build settings are specified in the Xcode GUI, but you can also use _configuration settings files_ (“`.xcconfig` files”) for them. The benefits of using these are:
 
-- You can add comments to explain things
+- You can add comments to explain things.
 - You can `#include` other build settings files, which helps you avoid repeating yourself:
-    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
-    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
-- Conflict resolution and merging becomes easier
+    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files.
+    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings.
+- Conflict resolution and merging becomes easier.
 
 Find more information about this topic in [these presentation slides][xcconfig-slides].
 

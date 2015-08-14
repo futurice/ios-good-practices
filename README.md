@@ -234,7 +234,9 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
-When using Auto Layout in a custom view, it's usually enough to set up your constraints once at initialization. However, if you need to update them later during the view's lifecycle, be sure to override the below method!
+When using Auto Layout in a custom view, the [recommended approach is to create and activate your constraints once at initialization][wwdc-autolayout-mysteries]. If you need to change your constraints dynamically, hold references to them and then deactivate/activate these as required.
+
+Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout: 
 
 Swift:
 ```swift
@@ -252,6 +254,7 @@ Objective-C:
 
 Otherwise you may encounter strange bugs when the system doesn't call `updateConstraints()` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
 
+[wwdc-autolayout-mysteries]: https://developer.apple.com/videos/wwdc/2015/?id=219
 [edward-huynh-requiresconstraintbasedlayout]: http://www.edwardhuynh.com/blog/2013/11/24/the-mystery-of-the-requiresconstraintbasedlayout/
 
 ### Controllers

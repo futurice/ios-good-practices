@@ -189,12 +189,14 @@ As a general rule, [don't write your date calculations yourself][timezones-youtu
 [datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
-If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
+If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
 
-[Masonry][masonry-github] remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
+If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
 [visual-format-language]: https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1
-[masonry-github]: https://www.github.com/Masonry/Masonry
+[nslayoutanchor]: https://developer.apple.com/library/prerelease/ios/documentation/AppKit/Reference/NSLayoutAnchor_ClassReference/index.html
+[snapkit-github]: https://github.com/SnapKit/
+[dsl-wikipedia]: https://en.wikipedia.org/wiki/Domain-specific_language
 [cartography-github]: https://github.com/robb/Cartography
 [flkautolayout-github]: https://github.com/floriankugler/FLKAutoLayout
 
@@ -202,12 +204,12 @@ If you prefer to write your views in code, chances are you've met either of Appl
 
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
-    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks
+    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks.
 * [Model-View-ViewModel (MVVM)][mvvm]
-    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel
-    * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm]
+    * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
+    * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
-    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
+    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern.
 
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
 [mvvm]: http://www.objc.io/issue-13/mvvm.html
@@ -232,7 +234,9 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
-When using Auto Layout in a custom view, it's usually enough to set up your constraints once at initialization. However, if you need to update them later during the view's lifecycle, be sure to override the below method!
+When using Auto Layout in a custom view, the [recommended approach is to create and activate your constraints once at initialization][wwdc-autolayout-mysteries]. If you need to change your constraints dynamically, hold references to them and then deactivate/activate these as required.
+
+Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout: 
 
 Swift:
 ```swift
@@ -250,6 +254,7 @@ Objective-C:
 
 Otherwise you may encounter strange bugs when the system doesn't call `updateConstraints()` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
 
+[wwdc-autolayout-mysteries]: https://developer.apple.com/videos/wwdc/2015/?id=219
 [edward-huynh-requiresconstraintbasedlayout]: http://www.edwardhuynh.com/blog/2013/11/24/the-mystery-of-the-requiresconstraintbasedlayout/
 
 ### Controllers
@@ -455,10 +460,10 @@ The analyzer can work in either “shallow” or “deep” mode. The latter is 
 
 Recommendations:
 
-- Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections)
+- Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections).
 - Enable the _“Analyze during ‘Build’”_ build setting for your release build configuration to have the analyzer run automatically during release builds. (Seriously, do this — you’re not going to remember to run it manually.)
-- Set the _“Mode of Analysis for ‘Analyze’”_ build setting to _Shallow (faster)_
-- Set the _“Mode of Analysis for ‘Build’”_ build setting to _Deep_
+- Set the _“Mode of Analysis for ‘Analyze’”_ build setting to _Shallow (faster)_.
+- Set the _“Mode of Analysis for ‘Build’”_ build setting to _Deep_.
 
 ### [Faux Pas](http://fauxpasapp.com/)
 
@@ -539,11 +544,11 @@ However, this is a bit too simple for real-world applications. You might – no,
 
 Typically build settings are specified in the Xcode GUI, but you can also use _configuration settings files_ (“`.xcconfig` files”) for them. The benefits of using these are:
 
-- You can add comments to explain things
+- You can add comments to explain things.
 - You can `#include` other build settings files, which helps you avoid repeating yourself:
-    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files
-    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings
-- Conflict resolution and merging becomes easier
+    - If you have some settings that apply to all build configurations, add a `Common.xcconfig` and `#include` it in all the other files.
+    - If you e.g. want to have a “Debug” build configuration that enables compiler optimizations, you can just `#include "MyApp_Debug.xcconfig"` and override one of the settings.
+- Conflict resolution and merging becomes easier.
 
 Find more information about this topic in [these presentation slides][xcconfig-slides].
 

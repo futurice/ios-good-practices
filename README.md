@@ -234,7 +234,7 @@ These are the idiomatic ways for components to notify others about things:
 
 ### Models
 
-Keep your models immutable, and use them to translate the remote API's semantics and types to your app. Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice.
+Keep your models immutable, and use them to translate the remote API's semantics and types to your app. For Objective-C projects, Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice. In Swift, much of this can be achieved simply by favoring structs over classes.
 
 ### Views
 

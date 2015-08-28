@@ -50,16 +50,20 @@ A common question when beginning an iOS project is whether to write all views in
 * Storyboards are more prone to version conflicts due to their complex XML structure. This makes merging much harder than with code.
 * It's easier to structure and reuse views in code, thereby keeping your codebase [DRY][dry].
 * All information is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
+* Storyboards introduce coupling between your code and UI, which can lead to crashes e.g. when an outlet or action is not set up correctly. These issues are not detected by the compiler.
 
 [dry]: http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
 * Iteration is often faster since you can preview certain changes without building the project.
-* In Xcode 6, custom fonts and UI elements are finally represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
-* Starting with iOS 8, [Size Classes][size-classes] allow you to design for different device types and screens without duplication.
+* Custom fonts and UI elements are represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
+* For [size classes][size-classes] (available from iOS 8), Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
 
 [size-classes]: http://blog.futurice.com/adaptive-view-ios8
+
+#### Why not both?
+To get the best of both worlds, you can also take a hybrid approach: Start off by sketching the initial design with Storyboards, which are great for tinkering and quick changes. You can even invite designers to participate in this process. As the UI matures and reliability becomes more important, you then transition into a code-based setup that's easier to maintain and collaborate on.
 
 ### Ignores
 
@@ -236,7 +240,7 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 When using Auto Layout in a custom view, the [recommended approach is to create and activate your constraints once at initialization][wwdc-autolayout-mysteries]. If you need to change your constraints dynamically, hold references to them and then deactivate/activate these as required.
 
-Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout: 
+Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout:
 
 Swift:
 ```swift

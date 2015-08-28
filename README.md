@@ -238,6 +238,10 @@ Keep your models immutable, and use them to translate the remote API's semantics
 
 ### Views
 
+With today's wealth of screen sizes in the Apple ecosystem and the advent of split-screen multitasking on iPad, the boundaries between devices and form factors become increasingly blurred. Much like today's websites are expected to adapt to different browser window sizes, your app should handle changes in available screen real estate in a graceful way. This can happen e.g. if the user rotates the device or swipes in a secondary iPad app next to your own.
+
+Instead of manipulating view frames directly, you should use [size classes][size-classes] and Auto Layout to declare constraints on your views. The system will then calculate the appropriate frames based on these rules, and re-evaluate them when the environment changes.
+
 When using Auto Layout in a custom view, the [recommended approach is to create and activate your constraints once at initialization][wwdc-autolayout-mysteries]. If you need to change your constraints dynamically, hold references to them and then deactivate/activate these as required.
 
 Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout:

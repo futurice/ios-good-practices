@@ -245,9 +245,9 @@ With today's wealth of screen sizes in the Apple ecosystem and the advent of spl
 
 Instead of manipulating view frames directly, you should use [size classes][size-classes] and Auto Layout to declare constraints on your views. The system will then calculate the appropriate frames based on these rules, and re-evaluate them when the environment changes.
 
-When using Auto Layout in a custom view, the [recommended approach is to create and activate your constraints once at initialization][wwdc-autolayout-mysteries]. If you need to change your constraints dynamically, hold references to them and then deactivate/activate these as required.
+Apple's [recommended approach][wwdc-autolayout-mysteries] for setting up your layout constraints is to create and activate them once during initialization. If you need to change your constraints dynamically, hold references to them and then deactivate/activate them as required. The main use case for `UIView`'s `updateConstraints` (or its `UIViewController` counterpart, `updateViewConstraints`) is when you want the system to perform batch updates for better performance. However, this comes at the cost of having to call `setNeedsUpdateConstraints` elsewhere in your code, increasing its complexity.
 
-Only in rare cases will you need to override `UIViewController`'s `updateViewConstraints`. If you do this, however, make sure to also specify that your view requires a constraint-based layout:
+If you override `updateConstraints` in a custom view, you should explicitly state that your view requires a constraint-based layout:
 
 Swift:
 ```swift
@@ -263,7 +263,7 @@ Objective-C:
 }
 ```
 
-Otherwise you may encounter strange bugs when the system doesn't call `updateConstraints()` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
+Otherwise, you may encounter strange bugs when the system doesn't call `updateConstraints()` as you would expect it to. [This blog post][edward-huynh-requiresconstraintbasedlayout] by Edward Huynh offers a more detailed explanation.
 
 [wwdc-autolayout-mysteries]: https://developer.apple.com/videos/wwdc/2015/?id=219
 [edward-huynh-requiresconstraintbasedlayout]: http://www.edwardhuynh.com/blog/2013/11/24/the-mystery-of-the-requiresconstraintbasedlayout/

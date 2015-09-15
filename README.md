@@ -543,6 +543,14 @@ Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`
 
 ## Building
 
+This section contains an overview of this topic — please refer here for more comprehensive information:
+
+- [iOS Developer Library: Xcode Concepts][apple-xcode-concepts]
+- [Samantha Marshall: Managing Xcode][pewpew-managing-xcode]
+
+[apple-xcode-concepts]: https://developer.apple.com/library/ios/featuredarticles/XcodeConcepts/
+[pewpew-managing-xcode]: http://pewpewthespells.com/blog/managing_xcode.html
+
 ### Build Configurations
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.

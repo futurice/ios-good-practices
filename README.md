@@ -52,7 +52,7 @@ A common question when beginning an iOS project is whether to write all views in
 * All information is in one place. In Interface Builder you have to click through all the inspectors to find what you're looking for.
 * Storyboards introduce coupling between your code and UI, which can lead to crashes e.g. when an outlet or action is not set up correctly. These issues are not detected by the compiler.
 
-[dry]: http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+[dry]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 
 #### Why Storyboards?
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
@@ -60,7 +60,7 @@ A common question when beginning an iOS project is whether to write all views in
 * Custom fonts and UI elements are represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
 * For [size classes][size-classes] (available from iOS 8), Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
 
-[size-classes]: http://blog.futurice.com/adaptive-view-ios8
+[size-classes]: http://futurice.com/blog/adaptive-views-in-ios-8
 
 #### Why not both?
 To get the best of both worlds, you can also take a hybrid approach: Start off by sketching the initial design with Storyboards, which are great for tinkering and quick changes. You can even invite designers to participate in this process. As the UI matures and reliability becomes more important, you then transition into a code-based setup that's easier to maintain and collaborate on.
@@ -96,7 +96,7 @@ Note that from now on, you'll need to open the `.xcworkspace` file instead of `.
 
 will update all pods to the newest versions permitted by the Podfile. You can use a wealth of [operators][cocoapods-pod-syntax] to specify your exact version requirements.
 
-[cocoapods]: http://www.cocoapods.org
+[cocoapods]: https://cocoapods.org/
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
 
@@ -216,9 +216,9 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern.
 
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
-[mvvm]: http://www.objc.io/issue-13/mvvm.html
+[mvvm]: https://www.objc.io/issues/13-architecture/mvvm/
 [sprynthesis-mvvm]: http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/
-[viper]: http://www.objc.io/issue-13/viper.html
+[viper]: https://www.objc.io/issues/13-architecture/viper/
 
 ### “Event” Patterns
 
@@ -230,7 +230,7 @@ These are the idiomatic ways for components to notify others about things:
 * __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
 * __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell][elm-escape-from-callback-hell].
 
-[elm-escape-from-callback-hell]: http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
+[elm-escape-from-callback-hell]: http://elm-lang.org/learn/escape-from-callback-hell
 
 ### Models
 
@@ -508,7 +508,7 @@ Pay extra attention to how and where you create expensive classes. `NSDateFormat
 
 Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager][google-tag-manager]. The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
 
-[google-tag-manager]: http://www.google.com/tagmanager/
+[google-tag-manager]: https://www.google.com/analytics/tag-manager/
 
 A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that handles the translation from app-internal models and data formats (`FooModel`, `NSTimeInterval`, …) to the mostly string-based data layer:
 
@@ -557,7 +557,7 @@ Even simple apps can be built in different ways. The most basic separation that 
 
 However, this is a bit too simple for real-world applications. You might – no, [_should!_][futurice-environments] – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
 
-[futurice-environments]: https://blog.futurice.com/five-environments-you-cannot-develop-without
+[futurice-environments]: http://futurice.com/blog/five-environments-you-cannot-develop-without
 
 #### `xcconfig` files for build settings
 
@@ -653,7 +653,7 @@ For more information on this topic, check out the [Futurice blog: Validating in-
 
 [Futurice][futurice] • Creative Commons Attribution 4.0 International (CC BY 4.0)
 
-[futurice]: http://www.futurice.com
+[futurice]: http://futurice.com/
 
 
 ## More Ideas

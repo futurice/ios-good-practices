@@ -32,6 +32,12 @@ If you are looking for something specific, you can jump right into the relevant 
 
 ## Getting Started
 
+### Human Interface Guidelines
+
+If you're coming from another platform, do take some time to familiarize yourself with Apple's [Human Interface Guidelines][ios-hig] for the platform. There is a strong emphasis on good design in the iOS world, and your app should be no exception. The guidelines also provide a handy overview of native UI elements, technologies such as 3D Touch or Wallet, and icon dimensions for designers.
+
+[ios-hig]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/
+
 ### Xcode
 
 [Xcode][xcode] is the IDE of choice for most iOS developers, and the only one officially supported by Apple. There are some alternatives, of which [AppCode][appcode] is arguably the most famous, but unless you're already a seasoned iOS person, go with Xcode. Despite its shortcomings, it's actually quite usable nowadays!

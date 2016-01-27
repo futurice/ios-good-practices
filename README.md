@@ -203,7 +203,7 @@ If you prefer to write your views in code, chances are you've met either of Appl
 
 If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
-[visual-format-language]: https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1
+[visual-format-language]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html
 [nslayoutanchor]: https://developer.apple.com/library/prerelease/ios/documentation/AppKit/Reference/NSLayoutAnchor_ClassReference/index.html
 [snapkit-github]: https://github.com/SnapKit/
 [dsl-wikipedia]: https://en.wikipedia.org/wiki/Domain-specific_language

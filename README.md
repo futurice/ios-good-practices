@@ -28,6 +28,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Building](#building)
 1. [Deployment](#deployment)
 1. [In-App Purchases (IAP)](#in-app-purchases-iap)
+1. [Push Notifications](#push-notifications)
 1. [License](#license)
 
 ## Getting Started
@@ -654,6 +655,16 @@ Whenever possible, design your IAP system to store the content for sale server-s
 For more information on this topic, check out the [Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap].
 
 [futu-blog-iap]: http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app
+
+## Push Notifications
+
+There are a few things you can do to provide a good user experience when using Push Notifications in your app.
+
+- __Onboarding:__ Educate your user as to why you want to send pushes to them. Tell them about the value (deals, promotions, tips etc) in your onboarding sequence. Don't just have them open the app and be bombarded with the Allow Alert.
+- __Targeting:__ Send pushes to only those users who it's relevant to. Use a Mobile Marketing solution such as [Carnival](http://www.carnival.io), AppBoy, etc to segment your users and push to those groups only. 
+- __Timing:__ Don't send pushes to users who may be asleep. Try to send any broadcasts to them in their local timezone. 
+- __Engaging:__ Text should give them a reason to open up the app. Also use "tap here" instead of "click here".
+- __Respect:__ Respect your users at all time. Having push access is a right, not a priveledge. Do NOT spam them. It's a fast way to be uninstalled. 
 
 ## License
 

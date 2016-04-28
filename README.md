@@ -151,7 +151,7 @@ Keep your constants' scope as small as possible. For instance, when you only nee
 ```swift
 
 struct Config {
-    static let baseURL: NSURL(string: "http://www.example.org/")!
+    static let baseURL = NSURL(string: "http://www.example.org/")!
     static let splineReticulatorName = "foobar"
 }
 

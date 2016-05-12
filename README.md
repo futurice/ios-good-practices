@@ -180,6 +180,19 @@ Especially when distributing an app to the public (e.g. through the App Store), 
 
 [gitflow-github]: https://github.com/nvie/gitflow
 
+
+### Minimum iOS Version Requirement
+
+It’s useful to make an early decision on the minimum iOS version you want to support in your project. Here are some resources for gathering the data necessary for making this choice:
+
+- Official “first-party” resources:
+    - [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/) — The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
+- Third-party resources:
+    - [iOS Support Matrix](http://iossupportmatrix.com) — Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
+    - [_DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/) — Version penetration stats for David Smith’s Audiobooks apps.
+    - [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag) — Version penetration stats from Mixpanel.
+
+
 ## Common Libraries
 
 Generally speaking, make it a conscious decision to add an external dependency to your project. Sure, this one neat library solves your problem now, but maybe later gets stuck in maintenance limbo, with the next OS version that breaks everything being just around the corner. Another scenario is that a feature only achievable with external libraries suddenly becomes part of the official APIs. In a well-designed codebase, switching out the implementation is a small effort that pays off quickly. Always consider solving the problem using Apple's extensive (and mostly excellent) frameworks first!

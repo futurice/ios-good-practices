@@ -557,6 +557,7 @@ First you should make your app send crash logs onto a server somewhere so that y
 * [HockeyApp](http://hockeyapp.net)
 * [Crittercism](https://www.crittercism.com)
 * [Splunk MINTexpress](https://mint.splunk.com)
+* [Instabug](https://instabug.com/)
 
 [plcrashreporter]: https://www.plcrashreporter.org
 

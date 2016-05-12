@@ -183,7 +183,9 @@ Especially when distributing an app to the public (e.g. through the App Store), 
 
 ### Minimum iOS Version Requirement
 
-It’s useful to make an early decision on the minimum iOS version you want to support in your project. Here are some resources for gathering the data necessary for making this choice:
+It’s useful to make an early decision on the minimum iOS version you want to support in your project: knowing which OS versions you need to develop and test against, and which system APIs you can rely on, helps you estimate your workload, and enables you to determine what’s possible and what’s not.
+
+Use these resources to gather the data necessary for making this choice:
 
 - Official “first-party” resources:
     - [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/) — The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.

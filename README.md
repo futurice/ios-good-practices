@@ -249,9 +249,7 @@ These are the idiomatic ways for components to notify others about things:
 * __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
 * __Notification Center:__ _(one-to-many)_ Possibly the most common way for objects to emit “events” to multiple observers. Very loose coupling — notifications can even be observed globally without reference to the dispatching object.
 * __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
-* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell][elm-escape-from-callback-hell].
-
-[elm-escape-from-callback-hell]: http://elm-lang.org/learn/escape-from-callback-hell
+* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of "callback hell".
 
 ### Models
 
@@ -644,6 +642,8 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 #### Debugging Provisioning
 
 Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
+
+When dealing with an existing app archive (`.ipa`), you can inspect its provisioning profile in a similar fashion: Simply rename the `*.ipa` to `*.zip`, unpack it and find the `.app` package within. From its Finder context menu, choose "Show Package Contents" to see a file called `embedded.mobileprovision` that you can examine with the above method.
 
 [provisioning]: https://github.com/chockenberry/Provisioning
 

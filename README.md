@@ -349,7 +349,7 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ### Image optimisation
 
-Xcode automatically tries to optimise resources living in asset catalogs. Developers can choose from lossless and lossy compression algorithms. App icons are an exceptions: Apps with large or unoptimised app icons are known to be rejected by Apple. For app icons and more advanced optimisation of PNG files we recommend using [pngcrush][pngcrush-website] or [ImageOptim][imageoptim-website], its GUI counterpart.
+Xcode automatically tries to optimise resources living in asset catalogs (yet another reason to use them). Developers can choose from lossless and lossy compression algorithms. App icons are an exception: Apps with large or unoptimised app icons are known to be rejected by Apple. For app icons and more advanced optimisation of PNG files we recommend using [pngcrush][pngcrush-website] or [ImageOptim][imageoptim-website], its GUI counterpart.
 
 [pngcrush-website]: http://pmt.sourceforge.net/pngcrush/ 
 [imageoptim-website]:https://imageoptim.com/mac

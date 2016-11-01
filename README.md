@@ -352,9 +352,10 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ### Naming
 
-Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions][cocoa-coding-guidelines].
+Apple pays great attention to keeping naming consistent. Adhering to their [coding guidlines for Objective-C][cocoa-coding-guidelines] and [API design guidlines for Swift][swift-api-design-guidlines] makes it much easier for new people to join the project.
 
 [cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
+[swift-api-design-guidlines]: https://swift.org/documentation/api-design-guidelines/
 
 Here are some basic takeaways you can start using right away:
 

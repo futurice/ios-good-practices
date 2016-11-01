@@ -187,12 +187,12 @@ It’s useful to make an early decision on the minimum iOS version you want to s
 
 Use these resources to gather the data necessary for making this choice:
 
-- Official “first-party” resources:
-    - [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/) — The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
-- Third-party resources:
-    - [iOS Support Matrix](http://iossupportmatrix.com) — Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
-    - [DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/) — Version penetration stats for David Smith’s Audiobooks apps.
-    - [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag) — Version penetration stats from Mixpanel.
+* Official “first-party” resources:
+    * [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/): The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
+* Third-party resources:
+    * [iOS Support Matrix](http://iossupportmatrix.com): Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
+    * [DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/): Version penetration stats for David Smith’s Audiobooks apps.
+    * [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag): Version penetration stats from Mixpanel.
 
 
 ## Common Libraries

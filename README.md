@@ -110,7 +110,7 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 
 [Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
 
-There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onward.
 
 To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
 
@@ -191,7 +191,7 @@ Use these resources to gather the data necessary for making this choice:
     - [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/) — The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
 - Third-party resources:
     - [iOS Support Matrix](http://iossupportmatrix.com) — Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
-    - [_DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/) — Version penetration stats for David Smith’s Audiobooks apps.
+    - [DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/) — Version penetration stats for David Smith’s Audiobooks apps.
     - [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag) — Version penetration stats from Mixpanel.
 
 
@@ -208,13 +208,13 @@ A perceived 99.95 percent of iOS developers use this network library. While `NSU
 [afnetworking-github]: https://github.com/AFNetworking/AFNetworking
 
 ### DateTools
-As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendar needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
 [datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
-If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
+If you prefer to write your views in code, chances are you've heard of either Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
 
 If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 

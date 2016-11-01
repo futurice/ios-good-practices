@@ -19,7 +19,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Getting Started](#getting-started)
 1. [Common Libraries](#common-libraries)
 1. [Architecture](#architecture)
-1. [Networking](#networking)
+1. [Stores](#stores)
 1. [Assets](#assets)
 1. [Coding Style](#coding-style)
 1. [Security](#security)
@@ -116,7 +116,7 @@ To get started, follow the [instructions][carthage-instructions] in Carthage's d
 
 [carthage]: https://github.com/Carthage/Carthage
 [simple-made-easy]: http://www.infoq.com/presentations/Simple-Made-Easy
-[carthage-instructions]: https://github.com/Carthage/Carthage#if-youre-building-for-ios
+[carthage-instructions]: https://github.com/Carthage/Carthage#installing-carthage
 
 ### Project Structure
 
@@ -335,7 +335,7 @@ If you don't want to use signals, futures or similar mechanisms to represent you
 
 [Asset catalogs][asset-catalogs] are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
 
-[asset-catalogs]: https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/_index.html
+[asset-catalogs]: http://help.apple.com/xcode/mac/8.0/#/dev10510b1f7
 
 ### Using Bitmap Images
 
@@ -430,7 +430,7 @@ Futurice does not have company-level guidelines for coding style. It can however
 
 * GitHub: [Swift](https://github.com/github/swift-style-guide) and [Objective-C](https://github.com/github/objective-c-style-guide)
 * Ray Wenderlich: [Swift](https://github.com/raywenderlich/swift-style-guide) and [Objective-C](https://github.com/raywenderlich/objective-c-style-guide)
-* Google: [Objective-C](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* Google: [Objective-C](https://google.github.io/styleguide/objcguide.xml)
 * The New York Times: [Objective-C](https://github.com/NYTimes/objective-c-style-guide)
 * Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
 * Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
@@ -511,7 +511,7 @@ For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are 
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com
-[xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
+[xcode-view-debugging]: https://developer.apple.com/library/prerelease/content/documentation/DeveloperTools/Conceptual/debugging_with_xcode/chapters/special_debugging_workflows.html
 
 ### Profiling
 

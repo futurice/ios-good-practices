@@ -110,7 +110,7 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 
 [Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
 
-There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onward.
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
 
 To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
 
@@ -352,10 +352,10 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 ### Naming
 
-Apple pays great attention to keeping naming consistent. Adhering to their [coding guidlines for Objective-C][cocoa-coding-guidelines] and [API design guidlines for Swift][swift-api-design-guidlines] makes it much easier for new people to join the project.
+Apple pays great attention to keeping naming consistent. Adhering to their [coding guidelines for Objective-C][cocoa-coding-guidelines] and [API design guidelines for Swift][swift-api-design-guidelines] makes it much easier for new people to join the project.
 
 [cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
-[swift-api-design-guidlines]: https://swift.org/documentation/api-design-guidelines/
+[swift-api-design-guidelines]: https://swift.org/documentation/api-design-guidelines/
 
 Here are some basic takeaways you can start using right away:
 

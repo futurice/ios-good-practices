@@ -19,7 +19,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Getting Started](#getting-started)
 1. [Common Libraries](#common-libraries)
 1. [Architecture](#architecture)
-1. [Networking](#networking)
+1. [Stores](#stores)
 1. [Assets](#assets)
 1. [Coding Style](#coding-style)
 1. [Security](#security)
@@ -116,7 +116,7 @@ To get started, follow the [instructions][carthage-instructions] in Carthage's d
 
 [carthage]: https://github.com/Carthage/Carthage
 [simple-made-easy]: http://www.infoq.com/presentations/Simple-Made-Easy
-[carthage-instructions]: https://github.com/Carthage/Carthage#if-youre-building-for-ios
+[carthage-instructions]: https://github.com/Carthage/Carthage#installing-carthage
 
 ### Project Structure
 
@@ -138,7 +138,7 @@ Keep all user strings in localization files right from the beginning. This is go
 
 For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format][stringsdict-format] instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic][language-plural-rules].
 
-Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant in October 2014.
+Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant.
 
 [stringsdict-format]: https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html
 [language-plural-rules]: http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
@@ -187,12 +187,12 @@ It’s useful to make an early decision on the minimum iOS version you want to s
 
 Use these resources to gather the data necessary for making this choice:
 
-- Official “first-party” resources:
-    - [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/) — The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
-- Third-party resources:
-    - [iOS Support Matrix](http://iossupportmatrix.com) — Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
-    - [_DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/) — Version penetration stats for David Smith’s Audiobooks apps.
-    - [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag) — Version penetration stats from Mixpanel.
+* Official “first-party” resources:
+    * [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/): The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
+* Third-party resources:
+    * [iOS Support Matrix](http://iossupportmatrix.com): Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
+    * [DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/): Version penetration stats for David Smith’s Audiobooks apps.
+    * [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag): Version penetration stats from Mixpanel.
 
 
 ## Common Libraries
@@ -201,20 +201,21 @@ Generally speaking, make it a conscious decision to add an external dependency t
 
 Therefore this section has been deliberately kept rather short. The libraries featured here tend to reduce boilerplate code (e.g. Auto Layout) or solve complex problems that require extensive testing, such as date calculations. As you become more proficient with iOS, be sure to dive into the source here and there, and acquaint yourself with their underlying Apple frameworks. You'll find that those alone can do a lot of the heavy lifting.
 
-### AFNetworking
+### AFNetworking/Alamofire
 
-A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation. 
 
 [afnetworking-github]: https://github.com/AFNetworking/AFNetworking
+[alamofire-github]: https://github.com/Alamofire/Alamofire
 
 ### DateTools
-As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendar needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
 [datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
-If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
+If you prefer to write your views in code, chances are you've heard of either Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
 
 If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
@@ -335,7 +336,7 @@ If you don't want to use signals, futures or similar mechanisms to represent you
 
 [Asset catalogs][asset-catalogs] are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
 
-[asset-catalogs]: https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/_index.html
+[asset-catalogs]: http://help.apple.com/xcode/mac/8.0/#/dev10510b1f7
 
 ### Using Bitmap Images
 
@@ -359,9 +360,10 @@ Xcode automatically tries to optimise resources living in asset catalogs (yet an
 
 ### Naming
 
-Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions][cocoa-coding-guidelines].
+Apple pays great attention to keeping naming consistent. Adhering to their [coding guidelines for Objective-C][cocoa-coding-guidelines] and [API design guidelines for Swift][swift-api-design-guidelines] makes it much easier for new people to join the project.
 
 [cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
+[swift-api-design-guidelines]: https://swift.org/documentation/api-design-guidelines/
 
 Here are some basic takeaways you can start using right away:
 
@@ -438,7 +440,7 @@ Futurice does not have company-level guidelines for coding style. It can however
 
 * GitHub: [Swift](https://github.com/github/swift-style-guide) and [Objective-C](https://github.com/github/objective-c-style-guide)
 * Ray Wenderlich: [Swift](https://github.com/raywenderlich/swift-style-guide) and [Objective-C](https://github.com/raywenderlich/objective-c-style-guide)
-* Google: [Objective-C](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* Google: [Objective-C](https://google.github.io/styleguide/objcguide.xml)
 * The New York Times: [Objective-C](https://github.com/NYTimes/objective-c-style-guide)
 * Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
 * Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
@@ -519,17 +521,13 @@ For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are 
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com
-[xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
+[xcode-view-debugging]: https://developer.apple.com/library/prerelease/content/documentation/DeveloperTools/Conceptual/debugging_with_xcode/chapters/special_debugging_workflows.html
 
 ### Profiling
 
 Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
 
-Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
-
 Pay extra attention to how and where you create expensive classes. `NSDateFormatter`, for instance, is very expensive to create and doing so in rapid succession, e.g. inside a `tableView:cellForRowAtIndexPath:` method, can really slow down your app. Instead, keep a static instance of it around for each date format that you need.
-
-[ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
 ## Analytics
 

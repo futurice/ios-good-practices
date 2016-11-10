@@ -617,6 +617,9 @@ A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
 
 For most environments the language is not needed, as the app will probably be installed through other means than Xcode, e.g. TestFlight, and the launch argument thus be ignored anyway. In that case, the device language should be set manually to test localization.
 
+When you're going to automate your build process and have multiple build configurations, [Gym](https://github.com/fastlane/fastlane/tree/master/gym#readme) could be a good tool to work with. It helps you to build your app, signs it and creates a package ready to be deployed to iTunes Connect.
+
+
 ## Deployment
 
 Deploying software on iOS devices isn't exactly straightforward. That being said, here are some central concepts that, once understood, will help you tremendously with it.
@@ -627,6 +630,9 @@ Whenever you want to run software on an actual device (as opposed to the simulat
 
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
 * __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
+
+[Cert](https://github.com/fastlane/fastlane/tree/master/cert#readme) is one of the easiest ways to create and manage certificates in an automated way. It allows you to create a new private key, generate a new signing request, generate, downloads and installs the certificate you need and, finally import all the generated files into your Keychain.
+
 
 ### Provisioning
 
@@ -645,6 +651,8 @@ Besides certificates, there are also __provisioning profiles__, which are basica
 
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
+When you want to manage provisioning as a part of your build process, [Sigh](https://github.com/fastlane/fastlane/tree/master/sigh#readme) can be an option for you. It takes care about downloading the actual provisioning profiles from iTunes Connect, renew, repair them and allows you to manage profiles for multiple developer accounts and teams.
+
 #### Debugging Provisioning
 
 Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
@@ -658,6 +666,8 @@ When dealing with an existing app archive (`.ipa`), you can inspect its provisio
 [iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
 
 After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
+
+If you need to automate the process of uploading to iTunes Connect, you should take a look at [Deliver](https://github.com/fastlane/fastlane/tree/master/deliver#readmehttps://github.com/fastlane/fastlane/tree/master/deliver#readme). This tool enables you to upload not only ipa/pkg files to iTunes but upload screenshots and app's metadata as well.
 
 [itunes-connect]: https://itunesconnect.apple.com
 

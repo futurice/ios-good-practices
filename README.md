@@ -203,7 +203,7 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 
 ### AFNetworking/Alamofire
 
-The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation. 
+The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation.
 
 [afnetworking-github]: https://github.com/AFNetworking/AFNetworking
 [alamofire-github]: https://github.com/Alamofire/Alamofire
@@ -352,7 +352,7 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 Xcode automatically tries to optimise resources living in asset catalogs (yet another reason to use them). Developers can choose from lossless and lossy compression algorithms. App icons are an exception: Apps with large or unoptimised app icons are known to be rejected by Apple. For app icons and more advanced optimisation of PNG files we recommend using [pngcrush][pngcrush-website] or [ImageOptim][imageoptim-website], its GUI counterpart.
 
-[pngcrush-website]: http://pmt.sourceforge.net/pngcrush/ 
+[pngcrush-website]: http://pmt.sourceforge.net/pngcrush/
 [imageoptim-website]:https://imageoptim.com/mac
 
 

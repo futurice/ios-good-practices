@@ -400,31 +400,31 @@ class FooViewController : UIViewController, FoobarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // …
+        // ...
     }
 
     // MARK: Layout
 
     private func makeViewConstraints() {
-        // …
+        // ...
     }
 
     // MARK: User Interaction
 
     func foobarButtonTapped() {
-        // …
+        // ...
     }
 
     // MARK: FoobarDelegate
 
-    func foobar(foobar: Foobar didSomethingWithFoo foo: Foo) {
-        // …
+    func foobar(foobar: Foobar, didSomethingWithFoo foo: Foo) {
+        // ...
     }
 
     // MARK: Additional Helpers
 
     private func displayNameForFoo(foo: Foo) {
-        // …
+        // ...
     }
 
 }

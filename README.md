@@ -539,8 +539,8 @@ A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that h
 
 ```swift
 
-func pushAddItemEventWithItem(item: Item, editMode: EditMode) {
-    let editModeString = nameForEditMode(editMode)
+func pushAddItemEvent(with item: Item, editMode: EditMode) {
+    let editModeString = name(for: editMode)
 
     pushToDataLayer([
         "event": "addItem",

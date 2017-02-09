@@ -294,7 +294,7 @@ Use dependency injection, i.e. pass any required objects in as parameters, inste
 
 Swift:
 ```swift
-let fooViewController = FooViewController(viewModel: fooViewModel)
+let fooViewController = FooViewController(withViewModel: fooViewModel)
 ```
 
 Objective-C:

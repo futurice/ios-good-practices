@@ -64,7 +64,7 @@ A common question when beginning an iOS project is whether to write all views in
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
 * Iteration is often faster since you can preview certain changes without building the project.
 * Custom fonts and UI elements are represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
-* For [size classes][size-classes] (available from iOS 8), Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
+* For [size classes][size-classes], Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
 
 [size-classes]: http://futurice.com/blog/adaptive-views-in-ios-8
 
@@ -110,7 +110,7 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 
 [Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
 
-There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box.
 
 To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
 
@@ -203,7 +203,7 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 
 ### AFNetworking/Alamofire
 
-The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation. 
+The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation.
 
 [afnetworking-github]: https://github.com/AFNetworking/AFNetworking
 [alamofire-github]: https://github.com/Alamofire/Alamofire
@@ -352,7 +352,7 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 Xcode automatically tries to optimise resources living in asset catalogs (yet another reason to use them). Developers can choose from lossless and lossy compression algorithms. App icons are an exception: Apps with large or unoptimised app icons are known to be rejected by Apple. For app icons and more advanced optimisation of PNG files we recommend using [pngcrush][pngcrush-website] or [ImageOptim][imageoptim-website], its GUI counterpart.
 
-[pngcrush-website]: http://pmt.sourceforge.net/pngcrush/ 
+[pngcrush-website]: http://pmt.sourceforge.net/pngcrush/
 [imageoptim-website]:https://imageoptim.com/mac
 
 
@@ -517,7 +517,7 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Breakpoint Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
 
-For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
+For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it feels somewhat less polished.
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com

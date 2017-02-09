@@ -316,8 +316,8 @@ If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a nat
 
 Swift + RAC 3:
 ```swift
-func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
-    // …
+func fetchGigs(for artist: Artist) -> SignalProducer<[Gig], Error> {
+    // ...
 }
 ```
 

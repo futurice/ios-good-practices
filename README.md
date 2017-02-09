@@ -271,7 +271,7 @@ If you override `updateConstraints` in a custom view, you should explicitly stat
 
 Swift:
 ```swift
-override class func requiresConstraintBasedLayout() -> Bool {
+override class var requiresConstraintBasedLayout: Bool {
     return true
 }
 ```

@@ -323,8 +323,8 @@ func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
 
 ObjectiveC + RAC 2:
 ```objective-c
-- (RACSignal *)fetchGigsForArtist:(Artist *)artist {
-    // …
+- (RACSignal<NSArray<Gig *> *> *)fetchGigsForArtist:(Artist *)artist {
+    // ...
 }
 ```
 

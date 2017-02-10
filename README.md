@@ -314,14 +314,14 @@ Whether it means kicking off a backend request or deserializing a large file fro
 
 If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
-Swift + RAC 3:
+Swift + ReactiveSwift:
 ```swift
 func fetchGigs(for artist: Artist) -> SignalProducer<[Gig], Error> {
     // ...
 }
 ```
 
-ObjectiveC + RAC 2:
+ObjectiveC + ReactiveObjC:
 ```objective-c
 - (RACSignal<NSArray<Gig *> *> *)fetchGigsForArtist:(Artist *)artist {
     // ...

@@ -271,7 +271,7 @@ If you override `updateConstraints` in a custom view, you should explicitly stat
 
 Swift:
 ```swift
-override class func requiresConstraintBasedLayout() -> Bool {
+override class var requiresConstraintBasedLayout: Bool {
     return true
 }
 ```
@@ -294,7 +294,7 @@ Use dependency injection, i.e. pass any required objects in as parameters, inste
 
 Swift:
 ```swift
-let fooViewController = FooViewController(viewModel: fooViewModel)
+let fooViewController = FooViewController(withViewModel: fooViewModel)
 ```
 
 Objective-C:
@@ -314,17 +314,17 @@ Whether it means kicking off a backend request or deserializing a large file fro
 
 If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
-Swift + RAC 3:
+Swift + ReactiveSwift:
 ```swift
-func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
-    // …
+func fetchGigs(for artist: Artist) -> SignalProducer<[Gig], Error> {
+    // ...
 }
 ```
 
-ObjectiveC + RAC 2:
+ObjectiveC + ReactiveObjC:
 ```objective-c
-- (RACSignal *)fetchGigsForArtist:(Artist *)artist {
-    // …
+- (RACSignal<NSArray<Gig *> *> *)fetchGigsForArtist:(Artist *)artist {
+    // ...
 }
 ```
 
@@ -400,31 +400,31 @@ class FooViewController : UIViewController, FoobarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // …
+        // ...
     }
 
     // MARK: Layout
 
     private func makeViewConstraints() {
-        // …
+        // ...
     }
 
     // MARK: User Interaction
 
     func foobarButtonTapped() {
-        // …
+        // ...
     }
 
     // MARK: FoobarDelegate
 
-    func foobar(foobar: Foobar didSomethingWithFoo foo: Foo) {
-        // …
+    func foobar(foobar: Foobar, didSomethingWithFoo foo: Foo) {
+        // ...
     }
 
     // MARK: Additional Helpers
 
     private func displayNameForFoo(foo: Foo) {
-        // …
+        // ...
     }
 
 }
@@ -539,8 +539,8 @@ A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that h
 
 ```swift
 
-func pushAddItemEventWithItem(item: Item, editMode: EditMode) {
-    let editModeString = nameForEditMode(editMode)
+func pushAddItemEvent(with item: Item, editMode: EditMode) {
+    let editModeString = name(for: editMode)
 
     pushToDataLayer([
         "event": "addItem",

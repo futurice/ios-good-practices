@@ -626,7 +626,7 @@ Deploying software on iOS devices isn't exactly straightforward. That being said
 Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
 
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
-* __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
+* __Distribution certificate:__ This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store". There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. Alternatively you can separate compilation and code signing. First build the target with release flags set while only using development signing. This allows you to test the build on development devices. When it comes to distribution, the person holding the distribution certificate can resign the very same build with Xcode. This allows the testing of "distribution builds" and doesn't require distribution certificates to be shared across multiple developers.
 
 ### Provisioning
 

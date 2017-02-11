@@ -453,7 +453,9 @@ Even in an age where we trust our portable devices with the most private data, a
 
 If your app needs to store sensitive data, such as a username and password, an authentication token or some personal user details, you need to keep these in a location where they cannot be accessed from outside the app. Never use `NSUserDefaults`, other plist files on disk or Core Data for this, as they are not encrypted! In most such cases, the iOS Keychain is your friend. If you're uncomfortable working with the C APIs directly, you can use a wrapper library such as [SSKeychain][sskeychain] or [UICKeyChainStore][uickeychainstore].
 
-When storing files and passwords, be sure to set the correct protection level, and choose it conservatively. If you need access while the device is locked (e.g. for background tasks), use the "accessible after first unlock" variety. In other cases, you should probably require that the device is unlocked to access the data. Only keep sensitive data around while you need it.
+When storing files and passwords, be sure to set the correct protection level, and choose it conservatively. If you need access while the device is locked (e.g. for background tasks), use the "accessible after first unlock" variety. In other cases, you should probably require that the device is unlocked to access the data.
+
+Your app can also enforce [Local Authentication][apple-local-authentication] with TouchID or device password before letting the user continue to a critical section of your app or unlocking certain Keychain items, instead of forcing the user to enter login credentials repeatedly. Ensure, however, to only keep sensitive data around while you need it.
 
 ### Networking
 
@@ -474,6 +476,7 @@ When this happens, it's also good practice to clear the Pasteboard to avoid pass
 [uickeychainstore]: https://github.com/kishikawakatsumi/UICKeyChainStore
 [certificate-pinning]: https://possiblemobile.com/2013/03/ssl-pinning-for-increased-app-security/
 [alamofire-github]: https://github.com/Alamofire/Alamofire
+[apple-local-authentication]: https://developer.apple.com/reference/localauthentication
 
 ## Diagnostics
 

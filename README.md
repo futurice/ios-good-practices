@@ -217,11 +217,12 @@ As a general rule, [don't write your date calculations yourself][timezones-youtu
 ### Auto Layout Libraries
 If you prefer to write your views in code, chances are you've heard of either Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
 
-If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
+If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. [PureLayout][purelayout-github] solves the same problem using Cocoa API style. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
 [visual-format-language]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html
 [nslayoutanchor]: https://developer.apple.com/library/prerelease/ios/documentation/AppKit/Reference/NSLayoutAnchor_ClassReference/index.html
 [snapkit-github]: https://github.com/SnapKit/
+[purelayout-github]: https://github.com/PureLayout/PureLayout
 [dsl-wikipedia]: https://en.wikipedia.org/wiki/Domain-specific_language
 [cartography-github]: https://github.com/robb/Cartography
 [flkautolayout-github]: https://github.com/floriankugler/FLKAutoLayout
@@ -230,7 +231,7 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
-    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks.
+    * Every Store exposes to the view controllers either `signals` or `void` methods with custom completion blocks.
 * [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
     * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
@@ -517,7 +518,7 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Breakpoint Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
 
-For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it feels somewhat less polished.
+For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Xcode also has integrated [view debugger][xcode-view-debugging] which is good enough and free to use.
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com

@@ -480,14 +480,16 @@ When this happens, it's also good practice to clear the Pasteboard to avoid pass
 
 ### Compiler warnings
 
-It is recommended that you enable as many compiler warnings as possible, and treat warnings as errors. This recommendation is justified in [these presentation slides][warnings-slides]. The slides also contain information on how to suppress certain warnings in specific files, or in specific sections of code.
+Enable as many compiler warnings as possible and treat those warnings as errors -- [it will be worth it in the long run][warnings-slides].
 
-In short, add at least these values to the _“Other Warning Flags”_ build setting:
+For Objective-C code, add these values to the _“Other Warning Flags”_ build setting:
 
-- `-Wall` _(Enables lots of additional warnings)_
-- `-Wextra` _(Enables more additional warnings)_
+- `-Wall` _(enables lots of additional warnings)_
+- `-Wextra` _(enables more additional warnings)_
 
-Also enable the _“Treat warnings as errors”_ build setting.
+and then enable the _“Treat warnings as errors”_ build setting.
+
+To treat warnings as errors for Swift code, add `-warnings-as-errors` to the _"Other Swift Flags"_ build setting.
 
 [warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
 

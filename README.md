@@ -130,6 +130,9 @@ To keep all those hundreds of source files from ending up in the same directory,
 
 First, create them as groups (little yellow "folders") within the group with your project's name in Xcode's Project Navigator. Then, for each of the groups, link them to an actual directory in your project path by opening their File Inspector on the right, hitting the little gray folder icon, and creating a new subfolder with the name of the group in your project directory.
 
+However, in case of a complex project, splitting the files based on the features is a good idea to keep in mind. 
+Some instances of the components mentioned before usually shared with most of the code of the project, but the main part of them are only related to a particular feature. So, makes sense to organise them under the same folder named with the specific feature.
+
 #### Localization
 
 Keep all user strings in localization files right from the beginning. This is good not only for translations, but also for finding user-facing text quickly. You can add a launch argument to your build scheme to launch the app in a certain language, e.g.

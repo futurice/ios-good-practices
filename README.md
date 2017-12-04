@@ -127,8 +127,24 @@ To keep all those hundreds of source files from ending up in the same directory,
     ├─ Controllers (or ViewModels, if your architecture is MVVM)
     ├─ Stores
     ├─ Helpers
+    
+This structure should work for most of the projects (mostly small to mid-sized projects). However sometimes the project might be too big to use the structure above. You might end up finding 50 different view controllers in the `Controllers` folder along with other 100 models in your `Models` folder. In the end you will end up in the same kind of mess. For bigger scaled projects like this you can use the following structure.
+
+    ├─ Features, Flows, Screens (however you name it)
+        ├─ FooView
+        ├─ FooViewController
+        ├─ FooModel
+        ├─ FooStore
+    ├─ Commons (You can still use the structure above for feature agnostic, reusable views, models etc.)
+        ├─ Models
+        ├─ Views
+    ├─ Helpers
+    
+The whole idea behind structuring is to be able to navigate, searcg and find in a project easily with a consistent mechanism. This will make structuring in a bigger project more meaningful.
 
 First, create them as groups (little yellow "folders") within the group with your project's name in Xcode's Project Navigator. Then, for each of the groups, link them to an actual directory in your project path by opening their File Inspector on the right, hitting the little gray folder icon, and creating a new subfolder with the name of the group in your project directory.
+
+XCode 9+ creates folders in the file system automatically. This step is not needed for XCode 9+ users.
 
 #### Localization
 

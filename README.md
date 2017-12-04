@@ -146,16 +146,16 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
+Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use enums defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
 
 ```swift
 
-struct Config {
+enum Config {
     static let baseURL = NSURL(string: "http://www.example.org/")!
     static let splineReticulatorName = "foobar"
 }
 
-struct Color {
+enum Color {
     static let primaryColor = UIColor(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
     static let secondaryColor = UIColor.lightGrayColor()
 }

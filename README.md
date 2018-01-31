@@ -120,7 +120,10 @@ To get started, follow the [instructions][carthage-instructions] in Carthage's d
 
 ### Project Structure
 
-To keep all those hundreds of source files from ending up in the same directory, it's a good idea to set up some folder structure depending on your architecture. For instance, you can use the following:
+The whole idea behind structuring is to be able to navigate, search and find in a project easily with a consistent mechanism. 
+To keep all those hundreds of source files from ending up in the same directory, it's a good idea to set up some folder structure depending on your architecture.
+
+Since there is no single solution which fits to every project, grouping could be done in different ways. Grouping files by functionality and feature membership makes navigation easier for relatively complicated projects. On the other hand, grouping by file types can provide basic clarity for the sake of navigation. Two examples below can be applied for different projects depending on architecture, size and quantity of features.
 
     ├─ Models
     ├─ Views
@@ -128,7 +131,7 @@ To keep all those hundreds of source files from ending up in the same directory,
     ├─ Stores
     ├─ Helpers
     
-This structure should work for most of the projects (mostly small to mid-sized projects). However sometimes the project might be too big to use the structure above. You might end up finding 50 different view controllers in the `Controllers` folder along with other 100 models in your `Models` folder. In the end you will end up in the same kind of mess. For bigger scaled projects like this you can use the following structure. Every folder will include only related files which makes understanding the feature scope and navigation easier.
+For bigger scaled projects you can use the following structure. Every folder will include only related files which makes understanding the feature scope and navigation easier.
 
     ├─ Features, Flows, Screens (however you name it)
         ├─ FooView
@@ -139,12 +142,10 @@ This structure should work for most of the projects (mostly small to mid-sized p
         ├─ Models
         ├─ Views
     ├─ Helpers
-    
-The whole idea behind structuring is to be able to navigate, search and find in a project easily with a consistent mechanism. This will make structuring in a bigger project more meaningful.
 
 First, create them as groups (little yellow "folders") within the group with your project's name in Xcode's Project Navigator. Then, for each of the groups, link them to an actual directory in your project path by opening their File Inspector on the right, hitting the little gray folder icon, and creating a new subfolder with the name of the group in your project directory.
 
-XCode 9+ creates folders in the file system automatically. This step is not needed for XCode 9+ users.
+*XCode 9+ creates folders in the file system automatically. This step is not needed for XCode 9+ users.*
 
 #### Localization
 

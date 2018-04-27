@@ -259,7 +259,7 @@ These are the idiomatic ways for components to notify others about things:
 
 ### Models
 
-Keep your models immutable, and use them to translate the remote API's semantics and types to your app. For Objective-C projects, Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice. In Swift, you can use structs instead of classes to ensure immutability, and use a parsing library such as [SwiftyJSON][swiftyjson] or [Argo][argo] to do the JSON-to-model mapping.
+Keep your models immutable, and use them to translate the remote API's semantics and types to your app. For Objective-C projects, Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice. In Swift, you can use structs instead of classes to ensure immutability, and use Swift's [Codable](https://medium.com/xcblog/painless-json-parsing-with-swift-codable-2c0beaeb21c1) to do the JSON-to-model mapping.
 
 [swiftyjson]: https://github.com/SwiftyJSON/SwiftyJSON
 [argo]: https://github.com/thoughtbot/Argo

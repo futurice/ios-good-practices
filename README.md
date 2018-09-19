@@ -19,7 +19,7 @@ If you are looking for something specific, you can jump right into the relevant 
 1. [Getting Started](#getting-started)
 1. [Common Libraries](#common-libraries)
 1. [Architecture](#architecture)
-1. [Networking](#networking)
+1. [Stores](#stores)
 1. [Assets](#assets)
 1. [Coding Style](#coding-style)
 1. [Security](#security)
@@ -36,7 +36,7 @@ If you are looking for something specific, you can jump right into the relevant 
 
 If you're coming from another platform, do take some time to familiarize yourself with Apple's [Human Interface Guidelines][ios-hig] for the platform. There is a strong emphasis on good design in the iOS world, and your app should be no exception. The guidelines also provide a handy overview of native UI elements, technologies such as 3D Touch or Wallet, and icon dimensions for designers.
 
-[ios-hig]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/
+[ios-hig]: https://developer.apple.com/ios/human-interface-guidelines/
 
 ### Xcode
 
@@ -64,7 +64,7 @@ A common question when beginning an iOS project is whether to write all views in
 * For the less technically inclined, Storyboards can be a great way to contribute to the project directly, e.g. by tweaking colors or layout constraints. However, this requires a working project setup and some time to learn the basics.
 * Iteration is often faster since you can preview certain changes without building the project.
 * Custom fonts and UI elements are represented visually in Storyboards, giving you a much better idea of the final appearance while designing.
-* For [size classes][size-classes] (available from iOS 8), Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
+* For [size classes][size-classes], Interface Builder gives you a live layout preview for the devices of your choice, including iPad split-screen multitasking.
 
 [size-classes]: http://futurice.com/blog/adaptive-views-in-ios-8
 
@@ -110,13 +110,13 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 
 [Carthage][carthage] takes the ["simple, not easy"][simple-made-easy] approach by building your dependencies into binary frameworks, without magically integrating them with your project in any way. This also greatly reduces build times, because your dependencies have already been compiled by the time you start building.
 
-There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box. Note that dynamic frameworks are only available from iOS 8 onwards.
+There is no centralized repository of projects, which means any library that can be compiled into a framework supports Carthage out of the box.
 
 To get started, follow the [instructions][carthage-instructions] in Carthage's documentation.
 
 [carthage]: https://github.com/Carthage/Carthage
 [simple-made-easy]: http://www.infoq.com/presentations/Simple-Made-Easy
-[carthage-instructions]: https://github.com/Carthage/Carthage#if-youre-building-for-ios
+[carthage-instructions]: https://github.com/Carthage/Carthage#installing-carthage
 
 ### Project Structure
 
@@ -138,7 +138,7 @@ Keep all user strings in localization files right from the beginning. This is go
 
 For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format][stringsdict-format] instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic][language-plural-rules].
 
-Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant in October 2014.
+Find more information about localization in [these presentation slides][l10n-slides] from the February 2012 HelsinkiOS meetup. Most of the talk is still relevant.
 
 [stringsdict-format]: https://developer.apple.com/library/prerelease/ios/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html
 [language-plural-rules]: http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
@@ -146,18 +146,22 @@ Find more information about localization in [these presentation slides][l10n-sli
 
 #### Constants
 
-Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use structs defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
+Keep your constants' scope as small as possible. For instance, when you only need it inside a class, it should live in that class. Those constants that need to be truly app-wide should be kept in one place. In Swift, you can use enums defined in a `Constants.swift` file to group, store and access your app-wide constants in a clean way:
 
 ```swift
 
-struct Config {
-    static let baseURL: NSURL(string: "http://www.example.org/")!
+enum Config {
+    static let baseURL = NSURL(string: "http://www.example.org/")!
     static let splineReticulatorName = "foobar"
 }
 
-struct Color {
+enum Color {
     static let primaryColor = UIColor(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
-    static let secondaryColor = UIColor.lightGrayColor()
+    static let secondaryColor = UIColor.lightGray
+        
+    // A visual way to define colours within code files is to use #colorLiteral
+    // This syntax will present you with colour picker component right on the code line
+    static let tertiaryColor = #colorLiteral(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
 }
 
 ```
@@ -180,32 +184,49 @@ Especially when distributing an app to the public (e.g. through the App Store), 
 
 [gitflow-github]: https://github.com/nvie/gitflow
 
+
+### Minimum iOS Version Requirement
+
+It’s useful to make an early decision on the minimum iOS version you want to support in your project: knowing which OS versions you need to develop and test against, and which system APIs you can rely on, helps you estimate your workload, and enables you to determine what’s possible and what’s not.
+
+Use these resources to gather the data necessary for making this choice:
+
+* Official “first-party” resources:
+    * [Apple’s world-wide iOS version penetration statistics](https://developer.apple.com/support/app-store/): The primary public source for version penetration stats. Prefer more localized and domain-specific statistics, if available.
+* Third-party resources:
+    * [iOS Support Matrix](http://iossupportmatrix.com): Useful for determining which specific device models are ruled out by a given minimum OS version requirement.
+    * [DavidSmith: iOS Version Stats](https://david-smith.org/iosversionstats/): Version penetration stats for David Smith’s Audiobooks apps.
+    * [Mixpanel Trends: iOS versions](https://mixpanel.com/trends/#report/ios_frag): Version penetration stats from Mixpanel.
+
+
 ## Common Libraries
 
 Generally speaking, make it a conscious decision to add an external dependency to your project. Sure, this one neat library solves your problem now, but maybe later gets stuck in maintenance limbo, with the next OS version that breaks everything being just around the corner. Another scenario is that a feature only achievable with external libraries suddenly becomes part of the official APIs. In a well-designed codebase, switching out the implementation is a small effort that pays off quickly. Always consider solving the problem using Apple's extensive (and mostly excellent) frameworks first!
 
 Therefore this section has been deliberately kept rather short. The libraries featured here tend to reduce boilerplate code (e.g. Auto Layout) or solve complex problems that require extensive testing, such as date calculations. As you become more proficient with iOS, be sure to dive into the source here and there, and acquaint yourself with their underlying Apple frameworks. You'll find that those alone can do a lot of the heavy lifting.
 
-### AFNetworking
+### AFNetworking/Alamofire
 
-A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
+The majority of iOS developers use one of these network libraries. While `NSURLSession` is surprisingly powerful by itself, [AFNetworking][afnetworking-github] and [Alamofire][alamofire-github] remain unbeaten when it comes to actually managing queues of requests, which is pretty much a requirement of any modern app. We recommend AFNetworking for Objective-C projects and Alamofire for Swift projects. While the two frameworks have subtle differences, they share the same ideology and are published by the same foundation.
 
 [afnetworking-github]: https://github.com/AFNetworking/AFNetworking
+[alamofire-github]: https://github.com/Alamofire/Alamofire
 
 ### DateTools
-As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
+As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in [DateTools][datetools-github] you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendar needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
 [datetools-github]: https://github.com/MatthewYork/DateTools
 
 ### Auto Layout Libraries
-If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
+If you prefer to write your views in code, chances are you've heard of either Apple's awkward syntaxes – the regular `NSLayoutConstraint` factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking. Fortunately, they've addressed the issue in iOS 9, allowing [a more concise specification of constraints][nslayoutanchor].
 
-If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
+If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] remedies the problem by introducing its own [DSL][dsl-wikipedia] to make, update and replace constraints. [PureLayout][purelayout-github] solves the same problem using Cocoa API style. For Swift, there is also [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
-[visual-format-language]: https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1
+[visual-format-language]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html
 [nslayoutanchor]: https://developer.apple.com/library/prerelease/ios/documentation/AppKit/Reference/NSLayoutAnchor_ClassReference/index.html
 [snapkit-github]: https://github.com/SnapKit/
+[purelayout-github]: https://github.com/PureLayout/PureLayout
 [dsl-wikipedia]: https://en.wikipedia.org/wiki/Domain-specific_language
 [cartography-github]: https://github.com/robb/Cartography
 [flkautolayout-github]: https://github.com/floriankugler/FLKAutoLayout
@@ -214,7 +235,7 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
-    * Every Store exposes to the view controllers either `RACSignal`s or `void`-returning methods with custom completion blocks.
+    * Every Store exposes to the view controllers either `signals` or `void` methods with custom completion blocks.
 * [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
     * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
@@ -234,9 +255,7 @@ These are the idiomatic ways for components to notify others about things:
 * __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
 * __Notification Center:__ _(one-to-many)_ Possibly the most common way for objects to emit “events” to multiple observers. Very loose coupling — notifications can even be observed globally without reference to the dispatching object.
 * __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
-* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell][elm-escape-from-callback-hell].
-
-[elm-escape-from-callback-hell]: http://elm-lang.org/learn/escape-from-callback-hell
+* __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of "callback hell".
 
 ### Models
 
@@ -257,7 +276,7 @@ If you override `updateConstraints` in a custom view, you should explicitly stat
 
 Swift:
 ```swift
-override class func requiresConstraintBasedLayout() -> Bool {
+override class var requiresConstraintBasedLayout: Bool {
     return true
 }
 ```
@@ -280,7 +299,7 @@ Use dependency injection, i.e. pass any required objects in as parameters, inste
 
 Swift:
 ```swift
-let fooViewController = FooViewController(viewModel: fooViewModel)
+let fooViewController = FooViewController(withViewModel: fooViewModel)
 ```
 
 Objective-C:
@@ -300,17 +319,17 @@ Whether it means kicking off a backend request or deserializing a large file fro
 
 If you're using [ReactiveCocoa][reactivecocoa-github], `SignalProducer` is a natural choice for the return type. For instance, fetching gigs for a given artist would yield the following signature:
 
-Swift + RAC 3:
+Swift + ReactiveSwift:
 ```swift
-func fetchGigsForArtist(artist: Artist) -> SignalProducer<[Gig], NSError> {
-    // …
+func fetchGigs(for artist: Artist) -> SignalProducer<[Gig], Error> {
+    // ...
 }
 ```
 
-ObjectiveC + RAC 2:
+ObjectiveC + ReactiveObjC:
 ```objective-c
-- (RACSignal *)fetchGigsForArtist:(Artist *)artist {
-    // …
+- (RACSignal<NSArray<Gig *> *> *)fetchGigsForArtist:(Artist *)artist {
+    // ...
 }
 ```
 
@@ -322,7 +341,7 @@ If you don't want to use signals, futures or similar mechanisms to represent you
 
 [Asset catalogs][asset-catalogs] are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
 
-[asset-catalogs]: https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html
+[asset-catalogs]: http://help.apple.com/xcode/mac/8.0/#/dev10510b1f7
 
 ### Using Bitmap Images
 
@@ -334,13 +353,22 @@ You can include the original [vector graphics (PDFs)][vector-assets] produced by
 
 [vector-assets]: http://martiancraft.com/blog/2014/09/vector-images-xcode6/
 
+### Image optimisation
+
+Xcode automatically tries to optimise resources living in asset catalogs (yet another reason to use them). Developers can choose from lossless and lossy compression algorithms. App icons are an exception: Apps with large or unoptimised app icons are known to be rejected by Apple. For app icons and more advanced optimisation of PNG files we recommend using [pngcrush][pngcrush-website] or [ImageOptim][imageoptim-website], its GUI counterpart.
+
+[pngcrush-website]: http://pmt.sourceforge.net/pngcrush/
+[imageoptim-website]:https://imageoptim.com/mac
+
+
 ## Coding Style
 
 ### Naming
 
-Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions][cocoa-coding-guidelines].
+Apple pays great attention to keeping naming consistent. Adhering to their [coding guidelines for Objective-C][cocoa-coding-guidelines] and [API design guidelines for Swift][swift-api-design-guidelines] makes it much easier for new people to join the project.
 
 [cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
+[swift-api-design-guidelines]: https://swift.org/documentation/api-design-guidelines/
 
 Here are some basic takeaways you can start using right away:
 
@@ -377,31 +405,31 @@ class FooViewController : UIViewController, FoobarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // …
+        // ...
     }
 
     // MARK: Layout
 
     private func makeViewConstraints() {
-        // …
+        // ...
     }
 
     // MARK: User Interaction
 
     func foobarButtonTapped() {
-        // …
+        // ...
     }
 
     // MARK: FoobarDelegate
 
-    func foobar(foobar: Foobar didSomethingWithFoo foo: Foo) {
-        // …
+    func foobar(foobar: Foobar, didSomethingWithFoo foo: Foo) {
+        // ...
     }
 
     // MARK: Additional Helpers
 
     private func displayNameForFoo(foo: Foo) {
-        // …
+        // ...
     }
 
 }
@@ -456,14 +484,16 @@ When this happens, it's also good practice to clear the Pasteboard to avoid pass
 
 ### Compiler warnings
 
-It is recommended that you enable as many compiler warnings as possible, and treat warnings as errors. This recommendation is justified in [these presentation slides][warnings-slides]. The slides also contain information on how to suppress certain warnings in specific files, or in specific sections of code.
+Enable as many compiler warnings as possible and treat those warnings as errors -- [it will be worth it in the long run][warnings-slides].
 
-In short, add at least these values to the _“Other Warning Flags”_ build setting:
+For Objective-C code, add these values to the _“Other Warning Flags”_ build setting:
 
-- `-Wall` _(Enables lots of additional warnings)_
-- `-Wextra` _(Enables more additional warnings)_
+- `-Wall` _(enables lots of additional warnings)_
+- `-Wextra` _(enables more additional warnings)_
 
-Also enable the _“Treat warnings as errors”_ build setting.
+and then enable the _“Treat warnings as errors”_ build setting.
+
+To treat warnings as errors for Swift code, add `-warnings-as-errors` to the _"Other Swift Flags"_ build setting.
 
 [warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
 
@@ -492,23 +522,19 @@ _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
 ### Debugging
 
-When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Debug Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
+When your app crashes, Xcode does not break into the debugger by default. To achieve this, add an exception breakpoint (click the "+" at the bottom of Xcode's Breakpoint Navigator) to halt execution whenever an exception is raised. In many cases, you will then see the line of code responsible for the exception. This catches any exception, even handled ones. If Xcode keeps breaking on benign exceptions in third party libraries e.g., you might be able to mitigate this by choosing _Edit Breakpoint_ and setting the _Exception_ drop-down to _Objective-C_.
 
-For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
+For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Xcode also has integrated [view debugger][xcode-view-debugging] which is good enough and free to use.
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com
-[xcode-view-debugging]: https://developer.apple.com/library/ios/recipes/xcode_help-debugger/using_view_debugger/using_view_debugger.html
+[xcode-view-debugging]: https://developer.apple.com/library/prerelease/content/documentation/DeveloperTools/Conceptual/debugging_with_xcode/chapters/special_debugging_workflows.html
 
 ### Profiling
 
 Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
 
-Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
-
 Pay extra attention to how and where you create expensive classes. `NSDateFormatter`, for instance, is very expensive to create and doing so in rapid succession, e.g. inside a `tableView:cellForRowAtIndexPath:` method, can really slow down your app. Instead, keep a static instance of it around for each date format that you need.
-
-[ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
 ## Analytics
 
@@ -520,8 +546,8 @@ A good practice is to create a slim helper class, e.g. `AnalyticsHelper`, that h
 
 ```swift
 
-func pushAddItemEventWithItem(item: Item, editMode: EditMode) {
-    let editModeString = nameForEditMode(editMode)
+func pushAddItemEvent(with item: Item, editMode: EditMode) {
+    let editModeString = name(for: editMode)
 
     pushToDataLayer([
         "event": "addItem",
@@ -538,10 +564,11 @@ This has the additional advantage of allowing you to swap out the entire Analyti
 
 First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter][plcrashreporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
 
-* [Crashlytics](http://www.crashlytics.com)
+* [Fabric](https://get.fabric.io)
 * [HockeyApp](http://hockeyapp.net)
 * [Crittercism](https://www.crittercism.com)
 * [Splunk MINTexpress](https://mint.splunk.com)
+* [Instabug](https://instabug.com/)
 
 [plcrashreporter]: https://www.plcrashreporter.org
 
@@ -628,6 +655,8 @@ To sync all certificates and profiles to your machine, go to Accounts in Xcode's
 #### Debugging Provisioning
 
 Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
+
+When dealing with an existing app archive (`.ipa`), you can inspect its provisioning profile in a similar fashion: Simply rename the `*.ipa` to `*.zip`, unpack it and find the `.app` package within. From its Finder context menu, choose "Show Package Contents" to see a file called `embedded.mobileprovision` that you can examine with the above method.
 
 [provisioning]: https://github.com/chockenberry/Provisioning
 

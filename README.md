@@ -662,11 +662,11 @@ When dealing with an existing app archive (`.ipa`), you can inspect its provisio
 
 ### Uploading
 
-[iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
+[App Store Connect][appstore-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode requires an Apple ID that is part of the developer account used for signing. Nowadays Apple has allowed for single Apple ID to be part of multiple App Store Connect accounts (i.e. client organizations) in both Apple's developer portal as well as App Store Connect.
 
 After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
 
-[itunes-connect]: https://itunesconnect.apple.com
+[appstore-connect]: https://appstoreconnect.apple.com
 
 ## In-App Purchases (IAP)
 

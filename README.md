@@ -239,6 +239,9 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 * [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
     * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
+* [Model-View-Presenter (MVP)][mvp]
+    * Being an evolution of MVC, it defines View as a recepient of UI events which then call the appropriate Presenter as needed.
+    * Follow this article to learn more about migration from MVC to MVP architecture [migration-from-mvc-to-mvp]
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern.
 
@@ -246,6 +249,8 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 [mvvm]: https://www.objc.io/issues/13-architecture/mvvm/
 [sprynthesis-mvvm]: http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/
 [viper]: https://www.objc.io/issues/13-architecture/viper/
+[mvp]: https://medium.com/@mohamedraja_77/mvp-in-ios-78fb008b37d1
+[migration-from-mvc-to-mvp]: https://blog.moove-it.com/going-from-mvc-to-mvp-on-ios/
 
 ### “Event” Patterns
 

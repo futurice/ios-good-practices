@@ -102,6 +102,8 @@ Note that from now on, you'll need to open the `.xcworkspace` file instead of `.
 
 will update all pods to the newest versions permitted by the Podfile. You can use a wealth of [operators][cocoapods-pod-syntax] to specify your exact version requirements.
 
+**Note:** It is recommended to push pods/ directory in your Remote repository also. This will help fellow team members to have the updated version of dependencies.
+
 [cocoapods]: https://cocoapods.org/
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html

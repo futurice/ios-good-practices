@@ -94,7 +94,9 @@ This creates a Podfile, which will hold all your dependencies in one place. Afte
 
     pod install
 
-to install the libraries and include them as part of a workspace which also holds your own project. It is generally [recommended to commit the installed dependencies to your own repo][committing-pods], instead of relying on having each developer running `pod install` after a fresh checkout.
+to install the libraries and include them as part of a workspace which also holds your own project.
+
+It is generally [recommended to commit the installed dependencies to your own repo][committing-pods], instead of relying on having each developer running `pod install` after a fresh checkout. (This is also the [CocoaPods-endorsed][committing-pods-cocoapods] way of doing things.)
 
 Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
 
@@ -105,6 +107,7 @@ will update all pods to the newest versions permitted by the Podfile. You can us
 [cocoapods]: https://cocoapods.org/
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
+[committing-pods-cocoapods]: https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 
 #### Carthage
 
@@ -158,7 +161,7 @@ enum Config {
 enum Color {
     static let primaryColor = UIColor(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)
     static let secondaryColor = UIColor.lightGray
-        
+
     // A visual way to define colours within code files is to use #colorLiteral
     // This syntax will present you with colour picker component right on the code line
     static let tertiaryColor = #colorLiteral(red: 0.22, green: 0.58, blue: 0.29, alpha: 1.0)

@@ -447,7 +447,7 @@ Futurice does not have company-level guidelines for coding style. It can however
 
 * GitHub: [Swift](https://github.com/github/swift-style-guide) and [Objective-C](https://github.com/github/objective-c-style-guide)
 * Ray Wenderlich: [Swift](https://github.com/raywenderlich/swift-style-guide) and [Objective-C](https://github.com/raywenderlich/objective-c-style-guide)
-* Google: [Objective-C](https://google.github.io/styleguide/objcguide.xml)
+* Google: [Swift](https://google.github.io/swift) and [Objective-C](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
 * The New York Times: [Objective-C](https://github.com/NYTimes/objective-c-style-guide)
 * Sam Soffes: [Objective-C](https://gist.github.com/soffes/812796)
 * Luke Redpath: [Objective-C](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)

@@ -237,6 +237,8 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
     * Every Store exposes to the view controllers either `signals` or `void` methods with custom completion blocks.
+* [Model-View-Presenter(MVP)][mvp]  
+    * MVP includes direct binding of the View and the Model while the Presenter (The Supervising Controller) still handles actions from the View and is capable of changing the View. This leads codes geeting more tetsablity.
 * [Model-View-ViewModel (MVVM)][mvvm]
     * Motivated by "massive view controllers": MVVM considers `UIViewController` subclasses part of the View and keeps them slim by maintaining all state in the ViewModel.
     * To learn more about it, check out Bob Spryn's [fantastic introduction][sprynthesis-mvvm].
@@ -244,6 +246,7 @@ If you're stuck with an earlier iOS version, [Masonry/SnapKit][snapkit-github] r
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern.
 
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
+[mvp]: https://en.wikipedia.org/wiki/Model–view–presenter
 [mvvm]: https://www.objc.io/issues/13-architecture/mvvm/
 [sprynthesis-mvvm]: http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/
 [viper]: https://www.objc.io/issues/13-architecture/viper/

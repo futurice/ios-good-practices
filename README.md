@@ -1,7 +1,7 @@
 iOS Good Practices
 ==================
 
-_Just like software, this document will rot unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
+_Just like software, this document will not unless we take care of it. We encourage everyone to help us on that – just open an issue or send a pull request!_
 
 Interested in other mobile platforms? Our [Best Practices in Android Development][android-best-practices] and [Windows App Development Best Practices][windows-app-development-best-practices] documents have got you covered.
 

@@ -567,7 +567,6 @@ This has the additional advantage of allowing you to swap out the entire Analyti
 First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter][plcrashreporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
 
 * [Fabric](https://get.fabric.io)
-* [HockeyApp](http://hockeyapp.net)
 * [Crittercism](https://www.crittercism.com)
 * [Splunk MINTexpress](https://mint.splunk.com)
 * [Instabug](https://instabug.com/)
